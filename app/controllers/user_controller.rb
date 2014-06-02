@@ -7,6 +7,10 @@ class UserController < ApplicationController
   	# puts "in here"
   end
 
+  def login
+  	
+  end
+
   def home
   end
 end

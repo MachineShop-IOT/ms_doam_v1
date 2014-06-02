@@ -1,3 +1,89 @@
+/* General CSS */
+
+.right{
+	text-align: right;
+}
+
+.nopad{
+	padding: 0px;
+}
+
+.nomargin{
+	margin: 0px;
+}
+
+.pad{
+	padding:5px;
+}
+
+.padx2{
+	padding:10px;
+}
+
+/* General CSS */
+
+input{
+	border-radius: 0px;
+}
+
+h1, h2, h3, h4 {
+	font-weight: normal;
+	margin: 0px;
+	padding: 10px;
+	color: #004880;
+}
+
 #doam_app_map{
 	height:500px;
+}
+
+/* navbar */
+
+.navbar-default .navbar-brand {
+	color: white;
+}
+
+.navbar-default .navbar-nav > li > a {
+	color: white;
+	line-height: 48px;
+}
+
+.navbar-default .navbar-collapse, .navbar-default .navbar-form {
+	border-color: green;
+	background-color: #2a6496;
+}
+
+.navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active > a:hover, .navbar-default .navbar-nav > .active > a:focus {
+	color: white;
+	background-color: #00487f;
+}
+
+/* Sticky footer styles
+-------------------------------------------------- */
+
+html,
+body {
+  height: 100%;
+  /* The html and body elements cannot have any padding or margin. */
+}
+
+/* Wrapper for page content to push down footer */
+.wrap {
+  min-height: 100%;
+  height: auto !important;
+  height: 100%;
+  /* Negative indent footer by its height */
+  margin: 0 auto -20px;
+  /* Pad bottom by footer height */
+  padding: 0 0 20px;
+}
+
+/* Set the fixed height of the footer here */
+.footer {
+  height: 30px;
+  background-color: #508bb9;
+  color: #003660;
+  font-size: 12px;
+  padding: 5px;
+  font-weight: bold;
 }
