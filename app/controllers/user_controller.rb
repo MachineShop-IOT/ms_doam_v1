@@ -26,6 +26,10 @@ class UserController < ApplicationController
   	render "index"
   end
 
+  def login
+  	
+  end
+
   def home
   end
 
