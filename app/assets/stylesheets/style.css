@@ -1,3 +1,11 @@
 #doam_app_map{
 	height:500px;
 }
+
+.userLoginForm{
+	display:none;
+}
+
+.apiKeyField{
+	margin-bottom: 10px;
+}
