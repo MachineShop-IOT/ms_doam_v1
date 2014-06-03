@@ -13,8 +13,8 @@ $(document).ready(function(){
     monitorMap.updateMapSize();
     monitorMap.setZoom('0');
     // addMapEventHandler();
-    monitorMap.addControl(drawFeature);
-    drawFeature.activate();
+    // monitorMap.addControl(drawFeature);
+    // drawFeature.activate();
 
     // var renderer = OpenLayers.Util.getParameters(window.location.href).renderer;
     // renderer = (renderer) ? [renderer] : OpenLayers.Layer.Vector.prototype.renderers;
@@ -33,27 +33,27 @@ $(document).ready(function(){
     //     monitorMap.addControl(controls[key]);
     // }
 
-    $('#api-key-submit').click(function(){
-        $('#ajaxSpinnerContainer').show().html('<div class="loaderBlock"><img src="assets/ajax-loader.gif" title="ajax loader workin"> Validating Api Key</div>');
-        $.ajax({
-            type:'POST',
-            url:'/apiKeyCheck',        
-            success:function(response){
-                $('#ajaxSpinnerContainer').hide().html('');
-                if(response){
-                    $('.apiKeyForm').toggle(function(){
-                        $('.userLoginForm').toggle();
-                    });                    
-                } else {
+    // $('#api-key-submit').click(function(){
+    //     $('#ajaxSpinnerContainer').show().html('<div class="loaderBlock"><img src="assets/ajax-loader.gif" title="ajax loader workin"> Validating Api Key</div>');
+    //     $.ajax({
+    //         type:'POST',
+    //         url:'/apiKeyCheck',        
+    //         success:function(response){
+    //             $('#ajaxSpinnerContainer').hide().html('');
+    //             if(response){
+    //                 $('.apiKeyForm').toggle(function(){
+    //                     $('.user-login-form').toggle();
+    //                 });                    
+    //             } else {
 
-                }
-            },
-            error: function(jqXHR, textStatus, errorThrown) {
-                // handleErrorAjax(jqXHR, textStatus, errorThrown);
-            }
-        })
-    });
-})
+    //             }
+    //         },
+    //         error: function(jqXHR, textStatus, errorThrown) {
+    //             // handleErrorAjax(jqXHR, textStatus, errorThrown);
+    //         }
+    //     })
+    // });
+});
 
 function addMapEventHandler() {
   var mapEventsHandler = new MapEventsHandler();
