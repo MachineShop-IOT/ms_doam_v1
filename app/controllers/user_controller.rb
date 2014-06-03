@@ -16,6 +16,7 @@ class UserController < ApplicationController
     
       rescue MachineShop::AuthenticationError => ae
         puts "------------ in error"
+        puts "k hola haii? kina nachaleko"
         redirect_to "/user/index", :status => :moved_permanently, :login => 'asdad'
       rescue MachineShop::APIConnectionError => ape
         redirect_to "/user/index", :status => :moved_permanently, :login => 'asdad'

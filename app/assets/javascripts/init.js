@@ -81,7 +81,8 @@ $(document).ready(function(){
     //             $('#ajaxSpinnerContainer').hide().html('');
     //             if(response){
     //                 $('.apiKeyForm').toggle(function(){
-    //                     $('.userLoginForm').toggle();
+    //                     $('.user-login-form').toggle();
+
     //                 });                    
     //             } else {
 
@@ -92,7 +93,9 @@ $(document).ready(function(){
     //         }
     //     })
     // });
-})
+
+});
+
 
 function addMapEventHandler() {
   var mapEventsHandler = new MapEventsHandler();
