@@ -61,4 +61,5 @@ DoamApp::Application.routes.draw do
   post 'user/index' => 'user#authenticate'
   get 'user/home' => 'user#home'
   post 'apiKeyCheck' => 'user#apiKeyCheck'
+  post '/user/apiKeyCheck' => 'user#apiKeyCheck'
 end

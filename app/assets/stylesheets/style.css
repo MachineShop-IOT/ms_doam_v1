@@ -130,9 +130,9 @@ body {
     cursor: pointer;
 }
 
-#sideMenuPanel{
+/*#sideMenuPanel{
   display:none;
-}
+}*/
 
 #sideMenuPanel .sidePanelDetails{
     height: 0px;
