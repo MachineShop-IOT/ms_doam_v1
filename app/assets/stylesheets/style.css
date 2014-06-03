@@ -134,10 +134,10 @@ body {
   display:none;
 }*/
 
-#sideMenuPanel .sidePanelDetails{
+/*#sideMenuPanel .sidePanelDetails{
     height: 0px;
     overflow: hidden;
-}
+}*/
 
 #sideMenuPanel .sidePanelDetails .row .col-xs-12{
     margin: 0 0 8px 0;

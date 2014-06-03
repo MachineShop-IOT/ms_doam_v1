@@ -1,7 +1,5 @@
 require 'machineshop'
 class UserController < ApplicationController
-  # attr_accessor :auth_token  
-
   def authenticate
     begin
     	auth_token, user = MachineShop::User.authenticate(
@@ -9,13 +7,8 @@ class UserController < ApplicationController
           :password => params['userlogin']['password'] #password        
       )
       
-      session[:user] = user
       session[:auth_token] = auth_token
-
-      puts "------------ in success"
-      puts session[:auth_token]
-      # puts auth_token
-      # puts user
+      
       redirect_to "/user/home", :status => :moved_permanently
     
       rescue MachineShop::AuthenticationError => ae
@@ -26,21 +19,17 @@ class UserController < ApplicationController
   	
   end
 
-  def index
-    # puts "-------- in index"
-    # puts params
-    # @login = params['login']
-    # @login1 = 'asd'
+  def index    
   	render "index"
   end
 
   def home
     begin
-      # puts "--------- auth token #{self.auth_token}"
-      puts "--------- auth token #{session[:auth_token]}"
-      @devices = MachineShop::Device.all(@auth_token)
-      puts "---------- list of devices"
-      puts @devices
+      @deviceLists = Array.new
+      devices = MachineShop::Device.all({},session[:auth_token])
+      devices.to_a.each do |device|        
+        @deviceLists << [device['name'],device['id']]
+      end
     rescue MachineShop::AuthenticationError => ae
         redirect_to "/user/index", :status => :moved_permanently, :login => 'asdad'
     end
@@ -49,9 +38,8 @@ class UserController < ApplicationController
 
   def apiKeyCheck
     begin
-      allRoles = MachineShop::User.all_roles(params['apiKey']['api_key'])
-      # puts '------------------ roles'
-      # puts allRoles
+      allRoles = MachineShop::User.all_roles(params['apiKey']['api_key'])      
+      session[:auth_token] = params['apiKey']['api_key']
       redirect_to "/user/home/"
     rescue MachineShop::AuthenticationError => ae
       redirect_to "/user/index", :status => :moved_permanently, :login => 'asdad'
