@@ -1,19 +1,24 @@
 require 'machineshop'
 class UserController < ApplicationController
+  # attr_accessible :auth_token
   def authenticate
     begin
     	auth_token, user = MachineShop::User.authenticate(
           :email => params['userlogin']['email'], #publisher@csr.com
           :password => params['userlogin']['password'] #password        
       )
-      puts "------------ in success"
+
+      # @auth_token = auth_token
+      # puts "------------ in success"
+      # puts auth_token
+      # puts user
       redirect_to "/user/home", :status => :moved_permanently
     
       rescue MachineShop::AuthenticationError => ae
         puts "------------ in error"
         redirect_to "/user/index", :status => :moved_permanently, :login => 'asdad'
-        # puts auth_token
-        # puts user
+      rescue MachineShop::APIConnectionError => ape
+        redirect_to "/user/index", :status => :moved_permanently, :login => 'asdad'
       end
   	
   end
@@ -26,14 +31,20 @@ class UserController < ApplicationController
   	render "index"
   end
 
-  def login
-  	
-  end
-
   def home
   end
 
   def apiKeyCheck
-    render json: 'true'
+    begin
+      allRoles = MachineShop::User.all_roles(params['apiKey']['api_key'])
+      # puts '------------------ roles'
+      # puts allRoles
+      redirect_to "/user/home/"
+    rescue MachineShop::AuthenticationError => ae
+      redirect_to "/user/index", :status => :moved_permanently, :login => 'asdad'
+    rescue MachineShop::APIConnectionError => ape
+      redirect_to "/user/index", :status => :moved_permanently, :login => 'asdad'
+    end
   end
+
 end

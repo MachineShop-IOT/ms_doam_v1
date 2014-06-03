@@ -6,6 +6,45 @@ var defaultMonitorCenterLon = parseFloat(monitorManagerLocation.substr(monitorMa
 
 $(document).ready(function(){
 
+    var position = $("#doam_app_map").offset();
+    var width = $("#doam_app_map").width();
+    var height = $("#doam_app_map").height();
+
+    $(".slidePull").css({
+        "top": (position.top + 5),
+        "left": (position.left + width)
+    });
+
+    $('.slidePull').click(function () {
+        var width, left1, left2;
+        var scrollProperty;
+
+        if ($(this).hasClass('open-panel')) {
+            width = 0;
+            left1 = $("#doam_app_map").width();
+            left2 = $("#doam_app_map").width() - 14;
+            $(this).removeClass('open-panel');
+            scrollProperty = "hidden";
+        } else {
+            var width = $(this).attr('open-width');
+            left1 = $("#doam_app_map").width() - width + 14;
+            left2 = $("#doam_app_map").width() - width - 14;
+            $(this).addClass('open-panel');
+            scrollProperty = "scroll";
+        }
+        $('#sideMenuPanel').animate({
+            width: width,
+            left: left1
+        }, SLIDE_OPEN_CLOSE_TIME, function () {
+            $(this).css({
+                "overflow": scrollProperty
+            });
+        });
+        $('.slidePull').animate({
+            left: (left2)
+        }, SLIDE_OPEN_CLOSE_TIME);
+    });
+
     monitorMap = new mxn.Mapstraction('doam_app_map', 'openlayers');
     monitorMap.addControlsArgs.zoom = true;
     monitorMap.addLayer("GOOGLE", "Google Map");
@@ -13,8 +52,8 @@ $(document).ready(function(){
     monitorMap.updateMapSize();
     monitorMap.setZoom('0');
     // addMapEventHandler();
-    monitorMap.addControl(drawFeature);
-    drawFeature.activate();
+    // monitorMap.addControl(drawFeature);
+    // drawFeature.activate();
 
     // var renderer = OpenLayers.Util.getParameters(window.location.href).renderer;
     // renderer = (renderer) ? [renderer] : OpenLayers.Layer.Vector.prototype.renderers;
@@ -33,26 +72,26 @@ $(document).ready(function(){
     //     monitorMap.addControl(controls[key]);
     // }
 
-    $('#api-key-submit').click(function(){
-        $('#ajaxSpinnerContainer').show().html('<div class="loaderBlock"><img src="assets/ajax-loader.gif" title="ajax loader workin"> Validating Api Key</div>');
-        $.ajax({
-            type:'POST',
-            url:'/apiKeyCheck',        
-            success:function(response){
-                $('#ajaxSpinnerContainer').hide().html('');
-                if(response){
-                    $('.apiKeyForm').toggle(function(){
-                        $('.userLoginForm').toggle();
-                    });                    
-                } else {
+    // $('#api-key-submit').click(function(){
+    //     $('#ajaxSpinnerContainer').show().html('<div class="loaderBlock"><img src="assets/ajax-loader.gif" title="ajax loader workin"> Validating Api Key</div>');
+    //     $.ajax({
+    //         type:'POST',
+    //         url:'/apiKeyCheck',        
+    //         success:function(response){
+    //             $('#ajaxSpinnerContainer').hide().html('');
+    //             if(response){
+    //                 $('.apiKeyForm').toggle(function(){
+    //                     $('.userLoginForm').toggle();
+    //                 });                    
+    //             } else {
 
-                }
-            },
-            error: function(jqXHR, textStatus, errorThrown) {
-                // handleErrorAjax(jqXHR, textStatus, errorThrown);
-            }
-        })
-    });
+    //             }
+    //         },
+    //         error: function(jqXHR, textStatus, errorThrown) {
+    //             // handleErrorAjax(jqXHR, textStatus, errorThrown);
+    //         }
+    //     })
+    // });
 })
 
 function addMapEventHandler() {
