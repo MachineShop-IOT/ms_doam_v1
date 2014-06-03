@@ -1,83 +1,90 @@
-<div class="row" xmlns="">
-	<div class="col-xs-10 col-xs-push-1">
-		<div class="row text-center margin-bottom-20">
-			<h4>yeha map load garaunu paryo</h4>
-			<div class="col-xs-12" id="doam_app_map"></div>
+<div class="wrap">
+    <%= render partial: 'shared/header' %>
+    <%= render partial: 'shared/navbar' %>
 
+	<div class="row" xmlns="">
+		<div class="col-md-12">
+			<div class="row text-center margin-bottom-20">
+				<!-- map -->
+				<div class="col-xs-12" id="doam_app_map"></div>
 
-			<!-- side panel start -->
+				<!-- side panel start -->
 
-			<div class="slidePull" open-width="416">
-				<span class="glyphicon glyphicon-wrench"></span>
-			</div>
+				<div class="slidePull" open-width="416">
+					<span class="glyphicon glyphicon-wrench"></span>
+				</div>
 
-			<div id="sideMenuPanel">
-				<div class="container-custom">
+				<div id="sideMenuPanel">
+					<div class="container-custom">
 
-					<div class="row">
-						<div id="notification_div" class="alert alert-warning hide"></div>
-					</div>
-
-					<div class="row">
-						<div class="col-xs-11 sidePanelHeader">
-							<span class="glyphicon glyphicon-chevron-right"><label>Manage Items monitored</label></span>
-						</div>
-						<div class="col-xs-11 sidePanelDetails">
-							<div class="row">
-								<div class="col-xs-12">
-									<label id="selectAllTrackedItems"><input type="checkbox" checked="checked"> All tracked items</label>
-								</div>
-								<div class="col-xs-12">
-									<div class="noti_scroller" id="monitorRightPanelTrackedItemList" onscroll="onScrollMonitorRightPanelTrackedItemList();">
-									</div>
-								</div>
-								<div class="col-xs-8">
-									<a class="btn btn-primary btn-sm pull-right" id="monitorTrackedItemsBtn">Monitor Tracked
-										Items</a>
-									</div>
-									<div class="col-xs-4">
-										<img class="hoverInfo" data-original-title="POST /user/authenticate" src="/assets/info_icon.png" style="padding: 0px 5px 0 0; height: 25px;">
-									</div>
-								</div>
-							</div>
+						<div class="row">
+							<div id="notification_div" class="alert alert-warning hide"></div>
 						</div>
 
 						<div class="row">
 							<div class="col-xs-11 sidePanelHeader">
-								<span class="glyphicon glyphicon-chevron-right"><label>View Dynamic Position History</label></span>
+								<span class="glyphicon glyphicon-chevron-right"><label>Manage Items monitored</label></span>
 							</div>
 							<div class="col-xs-11 sidePanelDetails">
 								<div class="row">
 									<div class="col-xs-12">
-										Select Item
+										<label id="selectAllTrackedItems"><input type="checkbox" checked="checked"> All tracked items</label>
 									</div>
 									<div class="col-xs-12">
-										<select class="form-control trackedItemList" id="dynamicHistorySelect">
-											<option>Select Item</option>
-										</select>
-									</div>
-									<div class="col-xs-12">
-										Select interval<br/>
-										<label id="intervalVal">0 mins</label>
-									</div>
-									<div class="col-xs-12">
-										<div id="dynamicHistorySlider">
+										<div class="noti_scroller" id="monitorRightPanelTrackedItemList" onscroll="onScrollMonitorRightPanelTrackedItemList();">
 										</div>
 									</div>
 									<div class="col-xs-8">
-										<a id="chartDynamicHistoryBtn" class="btn btn-primary btn-sm pull-right">Chart Dynamic History</a>
+										<a class="btn btn-primary btn-sm pull-right" id="monitorTrackedItemsBtn">Monitor Tracked
+											Items</a>
+										</div>
+										<div class="col-xs-4">
+											<img class="hoverInfo" data-original-title="POST /user/authenticate" src="/assets/info_icon.png" style="padding: 0px 5px 0 0; height: 25px;">
+										</div>
 									</div>
-									<div class="col-xs-4">
-										<img class="hoverInfo" data-original-title="POST /user/authenticate" src="/assets/info_icon.png" style="padding: 0px 5px 0 0; height: 25px;">
+								</div>
+							</div>
+
+							<div class="row">
+								<div class="col-xs-11 sidePanelHeader">
+									<span class="glyphicon glyphicon-chevron-right"><label>View Dynamic Position History</label></span>
+								</div>
+								<div class="col-xs-11 sidePanelDetails">
+									<div class="row">
+										<div class="col-xs-12">
+											Select Item
+										</div>
+										<div class="col-xs-12">
+											<select class="form-control trackedItemList" id="dynamicHistorySelect">
+												<option>Select Item</option>
+											</select>
+										</div>
+										<div class="col-xs-12">
+											Select interval<br/>
+											<label id="intervalVal">0 mins</label>
+										</div>
+										<div class="col-xs-12">
+											<div id="dynamicHistorySlider">
+											</div>
+										</div>
+										<div class="col-xs-8">
+											<a id="chartDynamicHistoryBtn" class="btn btn-primary btn-sm pull-right">Chart Dynamic History</a>
+										</div>
+										<div class="col-xs-4">
+											<img class="hoverInfo" data-original-title="POST /user/authenticate" src="/assets/info_icon.png" style="padding: 0px 5px 0 0; height: 25px;">
+										</div>
 									</div>
 								</div>
 							</div>
 						</div>
 					</div>
-				</div>
 
-				<!-- side panel end -->
+					<!-- side panel end -->
 
-			</div>    
+				</div>    
+			</div>
 		</div>
 	</div>
+</div>
+
+<%= render partial: 'shared/footer' %>

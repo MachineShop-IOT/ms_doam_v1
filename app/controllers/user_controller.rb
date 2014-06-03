@@ -9,8 +9,8 @@ class UserController < ApplicationController
           :password => params['userlogin']['password'] #password        
       )
       
-      session[:user] = user
-      session[:auth_token] = auth_token
+      # session[:user] = user
+      # session[:auth_token] = auth_token
 
       puts "------------ in success"
       puts session[:auth_token]
@@ -38,7 +38,7 @@ class UserController < ApplicationController
     begin
       # puts "--------- auth token #{self.auth_token}"
       puts "--------- auth token #{session[:auth_token]}"
-      @devices = MachineShop::Device.all(@auth_token)
+      # @devices = MachineShop::Device.all(@auth_token)
       puts "---------- list of devices"
       puts @devices
     rescue MachineShop::AuthenticationError => ae
