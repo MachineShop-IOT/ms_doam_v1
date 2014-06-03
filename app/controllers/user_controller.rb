@@ -7,16 +7,20 @@ class UserController < ApplicationController
           :password => params['userlogin']['password'] #password        
       )
       
+
       session[:auth_token] = auth_token
-      
-      redirect_to "/user/home", :status => :moved_permanently
+      redirect_to "home", :status => :moved_permanently
     
       rescue MachineShop::AuthenticationError => ae
         redirect_to "/user/index", :status => :moved_permanently, :login => 'asdad'
       rescue MachineShop::APIConnectionError => ape
         redirect_to "/user/index", :status => :moved_permanently, :login => 'asdad'
-      end
-  	
+      end  	
+  end
+
+  def logout
+    session[:auth_token] = nil
+    redirect_to "/user/index"
   end
 
   def index    
@@ -24,7 +28,7 @@ class UserController < ApplicationController
   end
 
   def home
-    begin
+    begin      
       @deviceLists = Array.new
       devices = MachineShop::Device.all({},session[:auth_token])
       devices.to_a.each do |device|        
@@ -40,7 +44,7 @@ class UserController < ApplicationController
     begin
       allRoles = MachineShop::User.all_roles(params['apiKey']['api_key'])      
       session[:auth_token] = params['apiKey']['api_key']
-      redirect_to "/user/home/"
+      redirect_to "/home"
     rescue MachineShop::AuthenticationError => ae
       redirect_to "/user/index", :status => :moved_permanently, :login => 'asdad'
     rescue MachineShop::APIConnectionError => ape

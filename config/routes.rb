@@ -59,7 +59,8 @@ DoamApp::Application.routes.draw do
   root(:to => 'user#index')
 
   post 'user/index' => 'user#authenticate'
-  get 'user/home' => 'user#home'
+  get 'home' => 'user#home'
   post 'apiKeyCheck' => 'user#apiKeyCheck'
   post '/user/apiKeyCheck' => 'user#apiKeyCheck'
+  get '/logout' => 'user#logout'
 end

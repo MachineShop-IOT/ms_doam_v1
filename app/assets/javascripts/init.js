@@ -8,15 +8,6 @@ var SLIDE_OPEN_CLOSE_TIME = 400;
 
 $(document).ready(function(){
 
-    var position = $("#doam_app_map").offset();
-    var width = $("#doam_app_map").width();
-    var height = $("#doam_app_map").height();
-
-    $(".slidePull").css({
-        "top": (position.top + 5),
-        "left": (position.left + width)
-    });
-
     $('.slidePull').click(function () {
         var width, left1, left2;
         var scrollProperty;
@@ -24,7 +15,7 @@ $(document).ready(function(){
         if ($(this).hasClass('open-panel')) {
             width = 0;
             left1 = $("#doam_app_map").width();
-            left2 = $("#doam_app_map").width() - 14;
+            left2 = $("#doam_app_map").width() - 45;
             $(this).removeClass('open-panel');
             scrollProperty = "hidden";
         } else {
@@ -47,6 +38,19 @@ $(document).ready(function(){
         }, SLIDE_OPEN_CLOSE_TIME);
     });
 
+    $('.slidePull').trigger('click');
+
+
+    var position = $("#doam_app_map").offset();
+    var width = $("#doam_app_map").width();
+    var height = $("#doam_app_map").height();
+
+    $(".slidePull").css({
+        // "top": (position.top + 5),
+        "top": 0,
+        "left": (position.left + width)
+    });
+    
     monitorMap = new mxn.Mapstraction('doam_app_map', 'openlayers');
     monitorMap.addControlsArgs.zoom = true;
     monitorMap.addLayer("GOOGLE", "Google Map");
