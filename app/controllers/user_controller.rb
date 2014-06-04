@@ -5,25 +5,25 @@ class UserController < ApplicationController
     	auth_token, user = MachineShop::User.authenticate(
           :email => params['userlogin']['email'], #publisher@csr.com
           :password => params['userlogin']['password'] #password        
-      )
-      
+      )    
 
       session[:auth_token] = auth_token
-      redirect_to "home", :status => :moved_permanently
+      redirect_to "/home", :status => :moved_permanently
     
       rescue MachineShop::AuthenticationError => ae
-        redirect_to "/user/index", :status => :moved_permanently, :login => 'asdad'
+        redirect_to "/index", :status => :moved_permanently, :login => 'asdad'
       rescue MachineShop::APIConnectionError => ape
-        redirect_to "/user/index", :status => :moved_permanently, :login => 'asdad'
+        redirect_to "/index", :status => :moved_permanently, :login => 'asdad'
       end  	
   end
 
   def logout
     session[:auth_token] = nil
-    redirect_to "/user/index"
+    redirect_to "/index"
   end
 
-  def index    
+  def index
+    puts " param value in index --------------------------- #{params[:login]}"
   	render "index"
   end
 
@@ -35,7 +35,7 @@ class UserController < ApplicationController
         @deviceLists << [device['name'],device['id']]
       end
     rescue MachineShop::AuthenticationError => ae
-        redirect_to "/user/index", :status => :moved_permanently, :login => 'asdad'
+        redirect_to "/index", :status => :moved_permanently, :login => 'asdad'
     end
 
   end
@@ -46,9 +46,9 @@ class UserController < ApplicationController
       session[:auth_token] = params['apiKey']['api_key']
       redirect_to "/home"
     rescue MachineShop::AuthenticationError => ae
-      redirect_to "/user/index", :status => :moved_permanently, :login => 'asdad'
+      redirect_to "/index/false", :status => :moved_permanently, :login => 'asdad'
     rescue MachineShop::APIConnectionError => ape
-      redirect_to "/user/index", :status => :moved_permanently, :login => 'asdad'
+      redirect_to "/index", :status => :moved_permanently, :login => 'asdad'
     end
   end
 
