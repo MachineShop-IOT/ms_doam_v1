@@ -1,5 +1,7 @@
 // Revision: $Release 1.6.1$
 
+/*
+
 var mapstractionConfig = {
   mapServer:
   {
@@ -61,3 +63,6 @@ var mapstractionConfig = {
     activeColor: "green"
   }
 }
+
+
+*/

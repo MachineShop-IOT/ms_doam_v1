@@ -2,63 +2,69 @@
 	<%= render partial: 'shared/header' %>
 	<%= render partial: 'shared/navbar' %>
 
-	<div class="row" xmlns="">
-		<div class="col-md-12">
-			<div class="row text-center margin-bottom-20">
-				<!-- map -->
-				<div class="col-xs-12" id="doam_app_map"></div>
+	<div class="col-md-12">
+		<div class="row margin-bottom-20">
+			<!-- map -->
+			<div class="col-xs-12" id="doam_app_map"></div>
 
-				<!-- side panel start -->
+			<!-- side panel start -->
 
-				<div class="slidePull" open-width="416">
-					<span class="glyphicon glyphicon-wrench"></span>
-				</div>
+			<div class="slidePull" open-width="516">
+				<span class="glyphicon glyphicon-wrench"></span>
+			</div>
 
-				<div id="sideMenuPanel">
-					<div class="container-custom">
+			<div id="sideMenuPanel">
+				<div class="container-custom">
 
 
-						<div class="row">
-							<div id="notification_div" class="alert alert-warning hide"></div>
+					<div class="row">
+						<div id="notification_div" class="alert alert-warning hide"></div>
+					</div>
+
+					<div class="row">
+						<div class="col-xs-11 sidePanelHeader">
+							<span class="glyphicon glyphicon-chevron-right"><label> Select Device(s)</label></span>
 						</div>
+						<div class="col-xs-11 sidePanelDetails">
+							<div class="row">
+								<!--%= select_tag(:devices, options_for_select(@deviceLists)) %-->
 
-						<div class="row">
-							<div class="col-xs-11 sidePanelHeader">
-								<span class="glyphicon glyphicon-chevron-right"><label>Select Device(s)</label></span>
-							</div>
-							<div class="col-xs-11 sidePanelDetails">
-								<div class="row">
-									<%= select_tag(:devices, options_for_select(@deviceLists)) %>
-									<div class="col-xs-4">
-										<!-- <img class="hoverInfo" data-original-title="POST /user/authenticate" src="/assets/info_icon.png" style="padding: 0px 5px 0 0; height: 25px;"> -->
-									</div>
+								<div class="col-md-12 pad">
+									<ul class="list-devices">
+									  <% @deviceLists.each do |role| %>
+									      <li>
+									        <%= check_box_tag role[1], role[1] -%>
+									        <%= h role[0] -%>
+									      </li>
+									  <% end %>
+									</ul>
+								</div>
+								<div class="col-xs-4">
+									<!-- <img class="hoverInfo" data-original-title="POST /user/authenticate" src="/assets/info_icon.png" style="padding: 0px 5px 0 0; height: 25px;"> -->
 								</div>
 							</div>
 						</div>
+					</div>
 
 
-						<div class="row">
-							<div class="col-xs-11 sidePanelHeader">
-								<span class="glyphicon glyphicon-chevron-right"><label>Select Lat, Lon</label></span>
-							</div>
-							<div class="col-xs-11 sidePanelDetails">
-								<div class="row">									
-									<div class="col-xs-4">
-										<img class="hoverInfo" data-original-title="POST /user/authenticate" src="/assets/info_icon.png" style="padding: 0px 5px 0 0; height: 25px;">
-									</div>
+					<div class="row">
+						<div class="col-xs-11 sidePanelHeader">
+							<span class="glyphicon glyphicon-chevron-right"><label>Select Lat, Lon</label></span>
+						</div>
+						<div class="col-xs-11 sidePanelDetails">
+							<div class="row">									
+								<div class="col-xs-4">
+									<!--img class="hoverInfo" data-original-title="POST /user/authenticate" src="/assets/info_icon.png" style="padding: 0px 5px 0 0; height: 25px;"-->
 								</div>
 							</div>
 						</div>
 					</div>
 				</div>
+			</div>
+			<!-- side panel end -->
 
-
-				<!-- side panel end -->
-
-			</div>    
-		</div>
+		</div>    
 	</div>
-</div>
 </div>
 
 <%= render partial: 'shared/footer' %>
