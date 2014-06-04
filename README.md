@@ -1,4 +1,1 @@
-doam
-====
-
-a sample ruby app to plot data on open layers map
+Machineshop Dots On A Map
