@@ -107,7 +107,7 @@ body {
 
 #sideMenuPanel .container-custom{
     padding: 10px 15px;
-    width:400px;
+    width:460px;
 }
 
 #sideMenuPanel{
@@ -145,12 +145,14 @@ body {
     padding:0 15px;
 }
 
-ul.list-devices {
+ul.list {
     list-style-type: none;
     padding: 10px;
     margin: 10px;
+}
+
+.v-scroll{
     max-width: 400px;
     max-height:120px;
     overflow-y: scroll;
 }
-

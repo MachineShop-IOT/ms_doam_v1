@@ -30,7 +30,7 @@
 								<!--%= select_tag(:devices, options_for_select(@deviceLists)) %-->
 
 								<div class="col-md-12 pad">
-									<ul class="list-devices">
+									<ul class="list v-scroll">
 									  <% @deviceLists.each do |role| %>
 									      <li>
 									        <%= check_box_tag role[1], role[1] -%>
@@ -50,6 +50,17 @@
 					<div class="row">
 						<div class="col-xs-11 sidePanelHeader">
 							<span class="glyphicon glyphicon-chevron-right"><label>Select Lat, Lon</label></span>
+							<div>
+								<ul class="list v-scroll" id="fields_selector">
+									<% @location.each do |field| %>
+									  <li>
+									    	<%= check_box_tag "#{field[0]}", field[0] -%>
+									        <%= h field[0] -%>
+									  </li>
+									<% end %>
+								</ul>
+							</div>
+							<button type="button" id="show_reports" class="btn btn-primary btn-sm">Show Reports</button>
 						</div>
 						<div class="col-xs-11 sidePanelDetails">
 							<div class="row">									
@@ -69,3 +80,4 @@
 
 <%= render partial: 'shared/footer' %>
 
+<div class="ajax-spinner"></div>
