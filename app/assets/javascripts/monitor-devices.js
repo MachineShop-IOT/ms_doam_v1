@@ -13,17 +13,16 @@ function clearLayers(){
     monitorMap.removeLayer('CDP_LAYER');
 }
 
-function getDevicesReports() {
+function getDevicesLastReports() {
     var data = "adf";
     $.ajax({
-        url: "/user/devices_reports",
+        url: "/user/get_last_reports",
         "data": data,
         beforeSend: function(jqXHR, settings) {
             jqXHR.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'));
         }
     }).done(function (response) {
-        // alert(response);
-        // console.log(reports);
+        // console.log(response);
         plotDevices(response);
     });
 }
@@ -35,8 +34,8 @@ function plotDevices(response) {
     showSpinner("Plotting devices...");
     console.log("Plotting devices...");
 
-    for (var i = 0; i < response.reports.length; i++) {
-        plotDevice(response.reports[i]);
+    for (var i = 0; i < response.last_reports.length; i++) {
+        plotDevice(response.last_reports[i]);
     }
     monitorMap.zoomToLayer('CDP_LAYER');
     hideSpinner();
@@ -44,57 +43,61 @@ function plotDevices(response) {
 
 function plotDevice(device) {
 
-    //get selected checkbox fields from the side panel
-    var selected_fields = getSelectedFields();
-    // console.log(selected_fields[0]);
-    // console.log(selected_fields[1]);
+    var selected_dis = getSelectedDeviceInstances();
+    var drawable = false;
 
-    console.log("Plotting device "+device.id);
-    console.log(device);
-    var location = device.payload.event.values.location;
+    //do we need to plot the device?
+    if (selected_dis.indexOf(device._id) > -1) { drawable = true; }
 
-    var latitude = location.latitude+Math.floor((Math.random() * 30) + 1);;
-    var longitude = location.longitude+Math.floor((Math.random() * 30) + 1);;
-    var altitude = location.altitude;
+    if(device.last_report && device.last_report.payload.event && drawable){
+        //get selected checkbox fields from the side panel
+        var selected_fields = getSelectedFields();
 
-    var a = selected_fields[0];
-    var b = selected_fields[1];
+        var location = device.last_report.payload.event.values.location;
 
-    for (var key in location) {
-      if (location.hasOwnProperty(key)) {
-        // alert(key + " -> " + location[key]);
-        console.log(key + " -> " + location[key]);
+        var latitude = location.latitude;
+        var longitude = location.longitude;
+        var altitude = location.altitude;
 
-        if(a==key){
-            latitude =  location[key];
-            console.log(latitude);
-            // alert('a');
+        var a = selected_fields[0];
+        var b = selected_fields[1];
+
+        for (var key in location) {
+          if (location.hasOwnProperty(key)) {
+            // alert(key + " -> " + location[key]);
+            // console.log(key + " -> " + location[key]);
+
+            if(a==key){
+                latitude =  location[key];
+                console.log(latitude);
+                // alert('a');
+            }
+
+            if(b==key){
+                // alert('b');
+                longitude =  location[key];
+                console.log(longitude);
+            }
+          }
         }
 
-        if(b==key){
-            // alert('b');
-            longitude =  location[key];
-            console.log(longitude);
-        }
-      }
-    }
+        var speed = device.last_report.payload.event.values.speed.hor_speed;
 
-    var speed = device.payload.event.values.speed.hor_speed;
+        var marker = new Marker();
+        var latLon = new mxn.LatLonPoint(latitude, longitude);
 
-    var marker = new Marker();
-    var latLon = new mxn.LatLonPoint(latitude, longitude);
+        marker.setLocation(latLon);
 
+        template = Handlebars.compile(infoBubbleTemplate);
+        handleBarsData = { "deviceName" : device.name, "latitude" : latitude, "longitude" : longitude, "altitude" : altitude, "speed" : speed, "reportDeviceDatetime" : device.updated_at };
+        var infoBubble = template(handleBarsData);
 
+        marker.setInfoBubble(infoBubble);
 
-    marker.setLocation(latLon);
-
-    template = Handlebars.compile(infoBubbleTemplate);
-    handleBarsData = { "deviceName" : device.id, "latitude" : latitude, "longitude" : longitude, "altitude" : altitude, "speed" : speed, "reportDeviceDatetime" : device.updated_at };
-    var infoBubble = template(handleBarsData);
-
-    marker.setInfoBubble(infoBubble);
-
-
-    monitorMap.addMarker(marker, 'CDP_LAYER');
+        monitorMap.addMarker(marker, 'CDP_LAYER');
+        console.log("plotted device "+device._id);
+    } else {
+        console.log("no location data in payload field... not plotting device "+device._id);
+    }    
 
 }

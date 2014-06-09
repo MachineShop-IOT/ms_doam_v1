@@ -1,4 +1,5 @@
 function showSpinner(message){
+    console.log("into showSpinner");
     $('.ajax-spinner').html('<div class="loader-block"><img src="assets/ajax-loader.gif" title="ajax loader workin"> '+message+'</div>');
     $('.ajax-spinner').show();
 }
@@ -14,4 +15,13 @@ function getSelectedFields(){
     });
 
     return selected_fields;
+}
+
+function getSelectedDeviceInstances(){
+	var selected_dis = [];
+    $('#dis_selector li input:checked').each(function() {
+        selected_dis.push($(this).attr('name'));
+    });
+
+    return selected_dis;
 }

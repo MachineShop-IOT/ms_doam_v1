@@ -22,27 +22,29 @@
 					</div>
 
 					<div class="row">
-						<div class="col-xs-11 sidePanelHeader">
-							<span class="glyphicon glyphicon-chevron-right"><label> Select Device(s)</label></span>
+						<div class="col-md-12 sidePanelHeader">
+							<span class="glyphicon glyphicon-chevron-right"><label> Select Device Instance(s)</label></span>
 						</div>
-						<div class="col-xs-11 sidePanelDetails">
-							<div class="row">
-								<!--%= select_tag(:devices, options_for_select(@deviceLists)) %-->
 
-								<div class="col-md-12 pad">
-									<ul class="list v-scroll">
-									  <% @deviceLists.each do |role| %>
-									      <li>
-									        <%= check_box_tag role[1], role[1] -%>
-									        <%= h role[0] -%>
-									      </li>
-									  <% end %>
-									</ul>
-								</div>
-								<div class="col-xs-4">
-									<!-- <img class="hoverInfo" data-original-title="POST /user/authenticate" src="/assets/info_icon.png" style="padding: 0px 5px 0 0; height: 25px;"> -->
-								</div>
+						<div class="col-md-12">
+							<div class="select_all_box">
+								<%= check_box_tag "select_all_dis", "Select all", {:checked => "checked"} -%>
+						        <%= h "Select all" -%>
 							</div>
+						</div>
+
+						<div class="col-md-12 sidePanelDetail">
+							<ul class="list v-scroll" id="dis_selector">
+							  <% @dis_list.each do |role| %>
+							      <li>
+							        <%= check_box_tag role[1], role[1], {:checked => "checked"} -%>
+							        <%= h role[0] -%>
+							      </li>
+							  <% end %>
+							</ul>
+						</div>
+						<div class="col-xs-4">
+							<!-- <img class="hoverInfo" data-original-title="POST /user/authenticate" src="/assets/info_icon.png" style="padding: 0px 5px 0 0; height: 25px;"> -->
 						</div>
 					</div>
 
@@ -51,14 +53,7 @@
 						<div class="col-xs-11 sidePanelHeader">
 							<span class="glyphicon glyphicon-chevron-right"><label>Select Lat, Lon</label></span>
 							<div>
-								<ul class="list v-scroll" id="fields_selector">
-									<% @location.each do |field| %>
-									  <li>
-									    	<%= check_box_tag "#{field[0]}", field[0] -%>
-									        <%= h field[0] -%>
-									  </li>
-									<% end %>
-								</ul>
+								
 							</div>
 							<button type="button" id="show_reports" class="btn btn-primary btn-sm">Show Reports</button>
 						</div>
@@ -80,4 +75,4 @@
 
 <%= render partial: 'shared/footer' %>
 
-<div class="ajax-spinner"></div>
+<div class="ajax-spinner" class="hide"></div>

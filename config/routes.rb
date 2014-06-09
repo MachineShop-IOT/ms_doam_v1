@@ -1,7 +1,7 @@
 DoamApp::Application.routes.draw do
   get "user/index"
   get "user/login"
-  get "user/devices_reports"
+  get "user/get_last_reports"
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

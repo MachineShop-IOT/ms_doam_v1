@@ -28,28 +28,30 @@ class UserController < ApplicationController
   end
 
   def home
-    begin      
-      @deviceLists = Array.new
-      devices = MachineShop::Device.all({},session[:auth_token])
-      puts devices.to_a
-      devices.to_a.each do |device|        
-        @deviceLists << [device['name'],device['id']]
-      end
+    # begin      
+    #   @deviceLists = Array.new
+    #   devices = MachineShop::Device.all({},session[:auth_token])
+    #   puts devices.to_a
+    #   devices.to_a.each do |device|        
+    #     @deviceLists << [device['name'],device['id']]
+    #   end
+    # rescue MachineShop::AuthenticationError => ae
+    #     redirect_to "/index", :status => :moved_permanently, :login => 'asdad'
+    # end
+
+    # reports = MachineShop::Report.all({}, session[:auth_token])
+    # sample = reports.sample.payload.event.values.location
+    # @location = sample.to_a
+
+    begin
+        @dis_list = Array.new
+        dis = MachineShop::DeviceInstance.all({}, session[:auth_token])
+        dis.to_a.each do |di|        
+            @dis_list << [di['name'], di['_id']]
+        end
     rescue MachineShop::AuthenticationError => ae
         redirect_to "/index", :status => :moved_permanently, :login => 'asdad'
     end
-
-    reports = MachineShop::Report.all({}, session[:auth_token])
-    sample = reports.sample.payload.event.values.location
-    @location = sample.to_a
-
-    element_data = MachineShop::Report.all(
-        ({:device_instance_id => '53845ce59818006e0900002f',
-          :per_page=>'1000',
-          #:created_at_between=>'2013-11-04T00:00:00_2014-03-19T17:02:00'
-        }), session[:auth_token])
-
-    puts "element data of f00e5981800ad58000006 #{element_data} "
 
   end
 
@@ -65,15 +67,19 @@ class UserController < ApplicationController
     end
   end
 
-  def devices_reports
+  def get_last_reports
+    last_reports = Array.new
+    dis = MachineShop::DeviceInstance.all({}, session[:auth_token])
+    dis.to_a.each do |di|        
+        last_reports << di['last_report']
+    end
 
-    reports = MachineShop::Report.all({}, session[:auth_token])
-
-    json_data = {reports: reports}
+    json_data = {last_reports: dis}
 
     respond_to do |format|
       format.json { render json: json_data.to_json }
     end
+
   end
 
 end
