@@ -43,6 +43,12 @@ function plotDevices(response) {
 
 function plotDevice(device) {
 
+    colorArray = getRandomColors(50);
+    var cdpImages = [];
+    for(var i = 0; i < colorArray.length; ++i) {
+        cdpImages.push("/user/get_colored_image_for_device?color=" + colorArray[i]);
+    }
+
     var selected_dis = getSelectedDeviceInstances();
     var drawable = false;
 
@@ -62,22 +68,13 @@ function plotDevice(device) {
         var a = selected_fields[0];
         var b = selected_fields[1];
 
+        // var a = $( "#lat").val();
+        // var b = $( "#lon").val();
+
         for (var key in location) {
           if (location.hasOwnProperty(key)) {
-            // alert(key + " -> " + location[key]);
-            // console.log(key + " -> " + location[key]);
-
-            if(a==key){
-                latitude =  location[key];
-                console.log(latitude);
-                // alert('a');
-            }
-
-            if(b==key){
-                // alert('b');
-                longitude =  location[key];
-                console.log(longitude);
-            }
+            if(a==key){ latitude =  location[key]; }
+            if(b==key){ longitude =  location[key]; }
           }
         }
 
@@ -87,6 +84,7 @@ function plotDevice(device) {
         var latLon = new mxn.LatLonPoint(latitude, longitude);
 
         marker.setLocation(latLon);
+        // marker.setIcon(cdpImages[10 % 50], [12, 12]);
 
         template = Handlebars.compile(infoBubbleTemplate);
         handleBarsData = { "deviceName" : device.name, "latitude" : latitude, "longitude" : longitude, "altitude" : altitude, "speed" : speed, "reportDeviceDatetime" : device.updated_at };

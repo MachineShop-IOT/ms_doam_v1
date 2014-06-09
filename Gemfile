@@ -45,3 +45,5 @@ end
 
 # Use debugger
 # gem 'debugger', group: [:development, :test]
+
+gem "rmagick", "~> 2.13.1"

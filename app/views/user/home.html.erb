@@ -51,7 +51,7 @@
 
 					<div class="row">
 						<div class="col-md-12 sidePanelHeader">
-							<span class="glyphicon glyphicon-chevron-right"><label>Select Lat, Lon</label></span>
+							<span class="glyphicon glyphicon-chevron-right"><label>Select Lat, Lon Fields</label></span>
 							<div>
 								<ul class="list v-scroll" id="fields_selector">
 								  <% @location[0].each do |role| %>
@@ -61,6 +61,25 @@
 								      </li>
 								  <% end %>
 								</ul>
+								<!--div class="pad">
+									<div class="form-horizontal" role="form">
+										<div class="form-group">
+											<label for="lat" class="col-sm-2 control-label">Latitude</label>
+											<div class="col-sm-6">
+												<input type="text" class="form-control" id="lat" placeholder="Latitude" value="latitude">
+											</div>
+										</div>
+
+										<div class="form-group">
+											<label for="lon" class="col-sm-2 control-label">Longitude</label>
+											<div class="col-sm-6">
+												<input type="text" class="form-control" id="lon" placeholder="Longitude" value="longitude">
+											</div>
+										</div>
+									</div>
+								</div-->
+
+								
 							</div>
 							<button type="button" id="show_reports" class="btn btn-primary btn-sm">Show Reports</button>
 						</div>
