@@ -50,10 +50,17 @@
 
 
 					<div class="row">
-						<div class="col-xs-11 sidePanelHeader">
+						<div class="col-md-12 sidePanelHeader">
 							<span class="glyphicon glyphicon-chevron-right"><label>Select Lat, Lon</label></span>
 							<div>
-								
+								<ul class="list v-scroll" id="fields_selector">
+								  <% @location[0].each do |role| %>
+								      <li>
+								        <%= check_box_tag role[0], role[0] -%>
+								        <%= h role[0] -%>
+								      </li>
+								  <% end %>
+								</ul>
 							</div>
 							<button type="button" id="show_reports" class="btn btn-primary btn-sm">Show Reports</button>
 						</div>

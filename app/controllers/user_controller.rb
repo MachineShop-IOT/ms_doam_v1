@@ -28,21 +28,6 @@ class UserController < ApplicationController
   end
 
   def home
-    # begin      
-    #   @deviceLists = Array.new
-    #   devices = MachineShop::Device.all({},session[:auth_token])
-    #   puts devices.to_a
-    #   devices.to_a.each do |device|        
-    #     @deviceLists << [device['name'],device['id']]
-    #   end
-    # rescue MachineShop::AuthenticationError => ae
-    #     redirect_to "/index", :status => :moved_permanently, :login => 'asdad'
-    # end
-
-    # reports = MachineShop::Report.all({}, session[:auth_token])
-    # sample = reports.sample.payload.event.values.location
-    # @location = sample.to_a
-
     begin
         @dis_list = Array.new
         dis = MachineShop::DeviceInstance.all({}, session[:auth_token])
@@ -52,6 +37,8 @@ class UserController < ApplicationController
     rescue MachineShop::AuthenticationError => ae
         redirect_to "/index", :status => :moved_permanently, :login => 'asdad'
     end
+
+    @location = get_location_data
 
   end
 
@@ -80,6 +67,26 @@ class UserController < ApplicationController
       format.json { render json: json_data.to_json }
     end
 
+  end
+
+  def get_location_data
+    sample = Array.new
+    dis = MachineShop::DeviceInstance.all({}, session[:auth_token])
+    dis.to_a.each do |di|
+        if di['last_report'].present?
+            if di['last_report']['payload'].present?
+                if di['last_report']['payload']['event'].present?
+                    if di['last_report']['payload']['event']['values'].present?
+                        if di['last_report']['payload']['event']['values']['location'].present?
+                            sample << di['last_report']['payload']['event']['values']['location']
+                        end
+                    end
+                end
+            end
+        end
+    end
+    sample
+      
   end
 
 end
