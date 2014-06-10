@@ -120,7 +120,9 @@ function plotDevice(device, index) {
             marker.setLocation(latLon);
             marker.setIcon(cdpImages[index % 50], [12, 12]);
 
-            monitorMap.addMarker(marker, 'CDP_LAYER');
+            console.log("Added fake marker");
+
+            // monitorMap.addMarker(marker, 'CDP_LAYER');
         }
     }    
 
