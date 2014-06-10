@@ -10,9 +10,7 @@ $(document).ready(function(){
 
     attachListeners();
     $('.slidePull').trigger('click');
-    $('.slidePull').trigger('click');
-    showSpinner("Loading Items...");    
-    
+    $('.slidePull').trigger('click');    
     initMap();
     getDevicesLastReports();
     attachMapListeners();

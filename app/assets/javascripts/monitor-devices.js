@@ -105,7 +105,7 @@ function plotDevice(device, index) {
         marker.setInfoBubble(infoBubble);
 
         monitorMap.addMarker(marker, 'CDP_LAYER');
-        console.log("Plotted device "+device._id + " at ("+latitude+", "+longitude+")");
+        console.log("Plotting device "+device._id + " at ("+latitude+", "+longitude+")");
     } else {
         console.log("No location data in payload field... not plotting device "+device._id);
 
