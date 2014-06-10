@@ -46,6 +46,8 @@ $(document).ready(function(){
     var width = $("#doam_app_map").width();
     var height = $("#doam_app_map").height();
 
+    position = position ? position: "0";
+
     $(".slidePull").css({
         // "top": (position.top + 5),
         "top": 0,
@@ -71,12 +73,50 @@ $(document).ready(function(){
         }
     });
 
+    $('.sidePanelHeader').click(function () {
+        var clickedItem = $(this);
+
+        // if clickedItem is open, close it
+        if (clickedItem.siblings('.sidePanelDetails').hasClass('open')) {
+            clickedItem.siblings('.open').animate({
+                height: 0,
+                margin: 0
+            }, SLIDE_OPEN_CLOSE_TIME, function () {
+                $(this).removeClass('open');
+                clickedItem.find('.glyphicon-chevron-down').removeClass('glyphicon-chevron-down').addClass('glyphicon-chevron-right');
+            });
+        } else {
+            $('.sidePanelHeader').siblings('.open').animate({
+                height: 0,
+                margin: 0
+            }, SLIDE_OPEN_CLOSE_TIME, function () {
+                $(this).removeClass('open');
+                $(this).siblings('.sidePanelHeader').find('.glyphicon-chevron-down').removeClass('glyphicon-chevron-down').addClass('glyphicon-chevron-right');
+            });
+
+            hideCreateGeofenceDiv();
+            hideCreateNewRule();
+            hideCreateComplexPolicy();
+
+            var height = $(this).siblings('.sidePanelDetails').find('.row').height();
+
+            $(this).siblings('.sidePanelDetails').animate({
+                height: height,
+                "margin-top": 15,
+                "margin-bottom": 15
+            }, SLIDE_OPEN_CLOSE_TIME, function () {
+                $(this).addClass('open');
+                clickedItem.find('.glyphicon-chevron-right').removeClass('glyphicon-chevron-right').addClass('glyphicon-chevron-down');
+            });
+        }
+    });
+
 });
 
 // fix side panel position after window resize
 $( window ).resize(function() {
-    $('.slidePull').trigger('click');
-    $('.slidePull').trigger('click');
+    // $('.slidePull').trigger('click');
+    // $('.slidePull').trigger('click');
 });
 
 

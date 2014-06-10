@@ -162,3 +162,49 @@ ul.list {
   margin: 10px 0px 0px 20px;
 
 }
+
+.api_info{
+    position: absolute;
+    box-shadow: 0px*/ 0px 0px 15px rgba(0,0,0,0.5);
+    max-height: 600px;
+    overflow-y: scroll;
+    background-color: rgba(22, 22, 22, 0.5);
+    padding: 10px;
+}
+
+.api_content{
+    background-color: #0171BB;
+    /*padding: px;*/
+    color: white;
+}
+
+.api_content p{
+    padding: 10px;
+}
+
+pre{
+  display: block;
+  padding: 5px;
+  margin: 0 0 10px;
+  font-size: 13px;
+  line-height: 1.428571429;
+  color: white;
+  word-break: break-all;
+  word-wrap: break-word;
+  background-color: #0171BB;
+  border: 0px solid #cccccc;
+  border-radius: 0px;
+}
+
+label.title, label.sub_title, label.content{
+    display: block;
+}
+
+label.content{
+  margin-left: 20px;
+  font-weight: normal;
+}
+
+label.slim{
+  font-weight: normal;
+}

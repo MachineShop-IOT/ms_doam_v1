@@ -35,13 +35,14 @@ function plotDevices(response) {
     console.log("Plotting devices...");
 
     for (var i = 0; i < response.last_reports.length; i++) {
-        plotDevice(response.last_reports[i]);
+        plotDevice(response.last_reports[i], i);
     }
+
     monitorMap.zoomToLayer('CDP_LAYER');
     hideSpinner();
 }
 
-function plotDevice(device) {
+function plotDevice(device, index) {
 
     colorArray = getRandomColors(50);
     var cdpImages = [];
@@ -65,18 +66,29 @@ function plotDevice(device) {
         var longitude = location.longitude;
         var altitude = location.altitude;
 
-        var a = selected_fields[0];
-        var b = selected_fields[1];
+        // var a = selected_fields[0];
+        // var b = selected_fields[1];
 
-        // var a = $( "#lat").val();
-        // var b = $( "#lon").val();
+        var payload = device.last_report.payload;
 
-        for (var key in location) {
-          if (location.hasOwnProperty(key)) {
-            if(a==key){ latitude =  location[key]; }
-            if(b==key){ longitude =  location[key]; }
-          }
+        var c = $( "#lat").val();
+        var d = $( "#lon").val();
+
+        var latarr = c.split(".");
+        var lonarr = d.split(".");
+
+        var lat_build = payload[latarr[0]];
+        var lon_build = payload[lonarr[0]];
+
+        for (var i = 1; i < latarr.length; i++) {
+            lat_build= lat_build[latarr[i]];
         }
+        latitude = lat_build;
+
+        for (var i = 1; i < lonarr.length; i++) {
+            lon_build= lon_build[lonarr[i]];
+        }
+        longitude = lon_build;
 
         var speed = device.last_report.payload.event.values.speed.hor_speed;
 
@@ -84,7 +96,7 @@ function plotDevice(device) {
         var latLon = new mxn.LatLonPoint(latitude, longitude);
 
         marker.setLocation(latLon);
-        // marker.setIcon(cdpImages[10 % 50], [12, 12]);
+        marker.setIcon(cdpImages[index % 50], [12, 12]);
 
         template = Handlebars.compile(infoBubbleTemplate);
         handleBarsData = { "deviceName" : device.name, "latitude" : latitude, "longitude" : longitude, "altitude" : altitude, "speed" : speed, "reportDeviceDatetime" : device.updated_at };
@@ -93,9 +105,23 @@ function plotDevice(device) {
         marker.setInfoBubble(infoBubble);
 
         monitorMap.addMarker(marker, 'CDP_LAYER');
-        console.log("plotted device "+device._id);
+        console.log("plotted device "+device._id + " at ("+latitude+", "+longitude+")");
     } else {
         console.log("no location data in payload field... not plotting device "+device._id);
+
+        if(drawable){
+
+            var latitude = Math.floor(Math.random() * 120) - 100;
+            var longitude = Math.floor(Math.random() * 120) - 100;
+
+            var marker = new Marker();
+            var latLon = new mxn.LatLonPoint(latitude, longitude);
+
+            marker.setLocation(latLon);
+            marker.setIcon(cdpImages[index % 50], [12, 12]);
+
+            monitorMap.addMarker(marker, 'CDP_LAYER');
+        }
     }    
 
 }

@@ -53,34 +53,27 @@
 						<div class="col-md-12 sidePanelHeader">
 							<span class="glyphicon glyphicon-chevron-right"><label>Select Lat, Lon Fields</label></span>
 							<div>
-								<ul class="list v-scroll" id="fields_selector">
-								  <% @location[0].each do |role| %>
-								      <li>
-								        <%= check_box_tag role[0], role[0] -%>
-								        <%= h role[0] -%>
-								      </li>
-								  <% end %>
-								</ul>
-								<!--div class="pad">
+								<div class="pad">
 									<div class="form-horizontal" role="form">
 										<div class="form-group">
 											<label for="lat" class="col-sm-2 control-label">Latitude</label>
-											<div class="col-sm-6">
-												<input type="text" class="form-control" id="lat" placeholder="Latitude" value="latitude">
+											<div class="col-sm-10">
+												<input type="text" class="form-control" id="lat" placeholder="Latitude" value="event.values.health.heartRateMon.devBodyLoc">
 											</div>
 										</div>
 
 										<div class="form-group">
 											<label for="lon" class="col-sm-2 control-label">Longitude</label>
-											<div class="col-sm-6">
-												<input type="text" class="form-control" id="lon" placeholder="Longitude" value="longitude">
+											<div class="col-sm-10">
+												<input type="text" class="form-control" id="lon" placeholder="Longitude" value="event.values.location.longitude">
 											</div>
 										</div>
 									</div>
-								</div-->
+								</div>
 
 								
 							</div>
+							<img class="hoverInfo" data-original-title="POST /user/authenticate" src="/assets/info_icon.png" style="padding: 0px 5px 0 0; height: 20px;"/>
 							<button type="button" id="show_reports" class="btn btn-primary btn-sm">Show Reports</button>
 						</div>
 						<div class="col-xs-11 sidePanelDetails">
@@ -102,3 +95,72 @@
 <%= render partial: 'shared/footer' %>
 
 <div class="ajax-spinner" class="hide"></div>
+
+<div class="api_info" style="display:none;width:45%;">
+    <div class="api_content">
+        <p>
+          <label class="title">Get the device instances</label>
+          <label class="sub_title">Get all the device instances of the user</label>
+          <pre>
+
+    MachineShop::DeviceInstance.all(
+	{:name => "instance_name"},
+	auth_token
+    )
+          </pre>
+        </p>
+    </div>
+
+    <div class="api_content">
+        <p>
+          <label class="sub_title">Http_method : Get</label>
+        </p>
+    </div>
+
+    <div class="api_content">
+        <p>
+          <label class="sub_title">Parameters</label>
+          <label class="content">auth_token</label>
+          <label class="content">filter_parameters</label>
+          <label class="content">* name</label>
+
+          <label class="content">Pass first parameter as empty array if no filters to be applied</label>
+        </p>
+    </div>
+
+    <div class="api_content">
+        <p>
+          <label class="sub_title">Response Example</label>
+          <pre>
+  {
+  "id" => "51795428911800d51400016c",
+      "_id" => "51795428911800d51400016c",
+      "active" => true,
+	  "created_at" => "2014-06-09T10:02:50Z",
+	  "deleted_at" => nil,
+	  "exe_path" => "/etc/foo",
+	  "image_url" => "http://someurl.com/your_image.png",
+	  "init_cmd" => "my_init_cmd",
+	  "init_params" => "{'init':'go'}",
+	  "last_known_translator_port" => nil,
+	  "long_description" => "This device tracks position and NCAA football conference.",
+	  "manual_url" => "http://someurl.com/manual.pdf",
+	  "manufacturer" => "a company",
+	  "model" => "D-vice 1000",
+	  "name" => "my_device",
+	  "rule_ids" => [],
+	  "sample_data" => "some arbitrary sample data",
+	  "software" => nil,
+	  "tag_ids" => [],
+	  "translator" => nil,
+	  "type" => "Test",
+	  "unit_price" => "$199.99",
+	  "updated_at" => "2014-06-09T10:02:50Z",
+	  "user_id" => "11161696201800aaef000056",
+	  "http_code" => 200
+  }
+          </pre>
+        </p>
+    </div>
+
+</div>

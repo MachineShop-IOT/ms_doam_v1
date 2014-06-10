@@ -120,7 +120,7 @@ DEPENDENCIES
   jquery-rails
   machineshop
   rails (= 4.0.2)
-  rmagick (~> 2.13.1)
+  rmagick
   sass-rails (~> 4.0.0)
   sdoc
   sqlite3

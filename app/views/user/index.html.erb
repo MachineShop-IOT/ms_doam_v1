@@ -58,7 +58,9 @@
               </div>
               <div class="error-login" errormsg="j_password" style="display:none"></div>          
               <div class="form-group">
-                <div class="col-md-offset-4 col-md-6 col-sm-offset-4 col-sm-8 col-xs-12">              
+                <div class="col-md-offset-4 col-md-6 col-sm-offset-4 col-sm-8 col-xs-12">
+                  <img class="hoverInfo" data-original-title="POST /user/authenticate" src="/assets/info_icon.png"
+                   style="padding: 0px 5px 0 0; height: 20px;"/>
                   <%= f.submit 'Submit', :class => "btn btn-default" %>
                   <%= button_tag "Clear", type: :reset, :class => "btn btn-default", :tabindex => "4" %>
                 </div>
@@ -71,3 +73,67 @@
 </div>
 
 <%= render partial: 'shared/footer' %>
+
+<div class="api_info" style="display:none;width:45%;">
+    <div class="api_content">
+        <p>
+          <label class="title">Authentication</label>
+          <label class="sub_title">Allow a user to authenticate</label>
+          <pre>
+    auth_token, user = MachineShop::User.authenticate(
+        :email => "username",
+        :password => "password"
+    )
+          </pre>
+        </p>
+    </div>
+
+    <div class="api_content">
+        <p>
+          <label class="sub_title">Http_method : Post</label>
+        </p>
+    </div>
+
+    <div class="api_content">
+        <p>
+          <label class="sub_title">Parameters</label>
+          <label class="content">email string</label>
+          <label class="content">password string</label>
+        </p>
+    </div>
+
+    <div class="api_content">
+        <p>
+          <label class="sub_title">Response Example</label>
+          <pre>
+    {
+    "id" => "8e98188e981800aaef000001",
+        "_id" => "8e98188e981800aaef000001",
+        "authentication_token" => "2jzZhuHWLZy9fsxcd36E",
+        "company_name" => "company_name",
+        "current_sign_in_at" => "2014-06-09T08:26:06Z",
+        "current_sign_in_ip" => "202.51.76.235",
+        "domain" => "john@domain.com",
+        "email" => "admin@domain.com",
+        "first_name" => "First_name",
+        "keychain" => {},
+        "last_name" => "Last_name",
+        "last_sign_in_at" => "2014-06-09T08:26:06Z",
+        "last_sign_in_ip" => "202.51.76.235",
+        "logo_url" => nil,
+        "name_space" => [
+            [0]
+            "test"
+    ],
+        "notification_method" => "sms",
+        "phone_number" => "+1 (123) 456-7890",
+        "role" => "admin",
+        "sign_in_count" => 234,
+        "tag_ids" => [],
+        "http_code" => 200
+    }
+          </pre>
+        </p>
+    </div>
+
+</div>

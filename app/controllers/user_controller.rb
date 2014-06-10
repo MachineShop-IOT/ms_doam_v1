@@ -1,5 +1,5 @@
 require 'machineshop'
-# require 'RMagick'
+require 'RMagick'
 class UserController < ApplicationController
   def authenticate
     begin
