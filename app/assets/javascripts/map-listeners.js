@@ -1,6 +1,7 @@
 function attachMapListeners() {
-    console.log('attaching map listeners...')
     var deferred = $.Deferred();
+    console.log('Attaching Map Listeners...');
+    showSpinner("Attaching Map Listeners...");
     onShowReportsClick();
     onSelectAllDisClick();
     return deferred;

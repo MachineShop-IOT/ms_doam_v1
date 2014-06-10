@@ -1,5 +1,4 @@
 function showSpinner(message){
-    console.log("into showSpinner");
     $('.ajax-spinner').html('<div class="loader-block"><img src="assets/ajax-loader.gif" title="ajax loader workin"> '+message+'</div>');
     $('.ajax-spinner').show();
 }

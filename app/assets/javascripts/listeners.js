@@ -1,6 +1,7 @@
 function attachListeners() {
     var deferred = $.Deferred();
-    console.log('attaching listeners');
+    showSpinner("Attaching listeners...");
+    console.log("Attaching Listeners...");
     setSidePanelMenuAnimations();
     return deferred;
 }

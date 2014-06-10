@@ -1,4 +1,6 @@
 function initMap(){
+    showSpinner("Initializing Map...");
+    console.log("Initializing Map..."); 
     monitorMap = new mxn.Mapstraction('doam_app_map', 'openlayers');
     monitorMap.addControlsArgs.zoom = true;
     monitorMap.addLayer("GOOGLE", "Google Map");
@@ -14,6 +16,7 @@ function clearLayers(){
 }
 
 function getDevicesLastReports() {
+    showSpinner("Receiving Device Last Reports...");
     var data = "adf";
     $.ajax({
         url: "/user/get_last_reports",
@@ -66,9 +69,6 @@ function plotDevice(device, index) {
         var longitude = location.longitude;
         var altitude = location.altitude;
 
-        // var a = selected_fields[0];
-        // var b = selected_fields[1];
-
         var payload = device.last_report.payload;
 
         var c = $( "#lat").val();
@@ -105,9 +105,9 @@ function plotDevice(device, index) {
         marker.setInfoBubble(infoBubble);
 
         monitorMap.addMarker(marker, 'CDP_LAYER');
-        console.log("plotted device "+device._id + " at ("+latitude+", "+longitude+")");
+        console.log("Plotted device "+device._id + " at ("+latitude+", "+longitude+")");
     } else {
-        console.log("no location data in payload field... not plotting device "+device._id);
+        console.log("No location data in payload field... not plotting device "+device._id);
 
         if(drawable){
 
