@@ -208,3 +208,18 @@ label.content{
 label.slim{
   font-weight: normal;
 }
+
+ul {list-style-type:none;}
+
+.tree li{
+  margin-left: -20px;
+}
+
+.tree li input{
+    margin-right: 5px;
+}
+
+.tree li span{
+    margin-left: 5px;
+    cursor: pointer;
+}
