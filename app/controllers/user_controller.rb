@@ -15,7 +15,7 @@ class UserController < ApplicationController
         redirect_to "/index", :status => :moved_permanently, :login => 'asdad'
       rescue MachineShop::APIConnectionError => ape
         redirect_to "/index", :status => :moved_permanently, :login => 'asdad'
-      end  	
+      end
   end
 
   def logout
@@ -39,7 +39,7 @@ class UserController < ApplicationController
         redirect_to "/index", :status => :moved_permanently, :login => 'asdad'
     end
 
-    @location = get_location_data
+    # @location = get_location_data
 
   end
 
@@ -70,23 +70,23 @@ class UserController < ApplicationController
 
   end
 
-  def get_location_data
-    sample = Array.new
+  def get_sample_payload_data
+    payload = Array.new
     dis = MachineShop::DeviceInstance.all({}, session[:auth_token])
     dis.to_a.each do |di|
         if di['last_report'].present?
             if di['last_report']['payload'].present?
-                if di['last_report']['payload']['event'].present?
-                    if di['last_report']['payload']['event']['values'].present?
-                        if di['last_report']['payload']['event']['values']['location'].present?
-                            sample << di['last_report']['payload']['event']['values']['location']
-                        end
-                    end
-                end
+                payload << di['last_report']['payload']
+                break
             end
         end
     end
-    sample
+
+    json_data = {payload: payload[0]}
+
+    respond_to do |format|
+      format.json { render json: json_data.to_json }
+    end
       
   end
 

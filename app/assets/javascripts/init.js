@@ -13,8 +13,8 @@ $(document).ready(function(){
     $('.slidePull').trigger('click');    
     initMap();
     getDevicesLastReports();
-    attachMapListeners();   
+    attachMapListeners();
 
-    // buildPayloadTree();
-    
+    buildPayloadTree();
+
 });

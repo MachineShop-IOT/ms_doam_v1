@@ -26,14 +26,13 @@
 							<span class="glyphicon glyphicon-chevron-right"><label> Select Device Instance(s)</label></span>
 						</div>
 
-						<div class="col-md-12">
+						<div class="col-md-12 sidePanelDetail">
+
 							<div class="select_all_box">
 								<%= check_box_tag "select_all_dis", "Select all", {:checked => "checked"} -%>
 						        <%= h "Select all" -%>
 							</div>
-						</div>
-
-						<div class="col-md-12 sidePanelDetail">
+							
 							<ul class="list v-scroll" id="dis_selector">
 							  <% @dis_list.each do |role| %>
 							      <li>
@@ -51,35 +50,42 @@
 
 					<div class="row">
 						<div class="col-md-12 sidePanelHeader">
-							<span class="glyphicon glyphicon-chevron-right"><label>Select Lat, Lon Fields</label></span>
-							<div>
-								<div class="pad">
-									<div class="form-horizontal" role="form">
-										<div class="form-group">
-											<label for="lat" class="col-sm-2 control-label">Latitude</label>
-											<div class="col-sm-10">
-												<input type="text" class="form-control" id="lat" placeholder="Latitude" value="event.values.health.heartRateMon.devBodyLoc">
-											</div>
-										</div>
+							<span class="glyphicon glyphicon-chevron-right"><label>Select Lat, Lon Fields</label></span>						
+						</div>
 
-										<div class="form-group">
-											<label for="lon" class="col-sm-2 control-label">Longitude</label>
-											<div class="col-sm-10">
-												<input type="text" class="form-control" id="lon" placeholder="Longitude" value="event.values.location.longitude">
-											</div>
+						<div class="col-md-12 sidePanelDetail">
+							<ul class="tree" id="tree">
+								<div class="center">
+									<img src="assets/ajax-loader.gif" title="ajax loader workin">
+									<span>Building Tree...</span>
+								</div>
+							</ul>
+							<ul id="selected_fields">
+							</ul>
+							<!--div class="pad">
+								<div class="form-horizontal" role="form">
+									<div class="form-group">
+										<label for="lat" class="col-sm-2 control-label">Latitude</label>
+										<div class="col-sm-10">
+											<input type="text" class="form-control" id="lat" placeholder="Latitude" value="event.values.health.heartRateMon.devBodyLoc">
+										</div>
+									</div>
+
+									<div class="form-group">
+										<label for="lon" class="col-sm-2 control-label">Longitude</label>
+										<div class="col-sm-10">
+											<input type="text" class="form-control" id="lon" placeholder="Longitude" value="event.values.location.longitude">
 										</div>
 									</div>
 								</div>
-
-								
-							</div>
-							<img class="hoverInfo" data-original-title="POST /user/authenticate" src="/assets/info_icon.png" style="padding: 0px 5px 0 0; height: 20px;"/>
-							<button type="button" id="show_reports" class="btn btn-primary btn-sm">Show Reports</button>
+							</div-->								
 						</div>
+
 						<div class="col-xs-11 sidePanelDetails">
 							<div class="row">									
-								<div class="col-xs-4">
-									<!--img class="hoverInfo" data-original-title="POST /user/authenticate" src="/assets/info_icon.png" style="padding: 0px 5px 0 0; height: 25px;"-->
+								<div class="col-md-12">
+									<img class="hoverInfo" data-original-title="POST /user/authenticate" src="/assets/info_icon.png" style="padding: 0px 5px 0 0; height: 20px;"/>
+									<button type="button" id="show_reports" class="btn btn-primary btn-sm">Show Reports</button>
 								</div>
 							</div>
 						</div>

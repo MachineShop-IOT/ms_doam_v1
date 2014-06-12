@@ -60,8 +60,6 @@ function plotDevice(device, index) {
     if (selected_dis.indexOf(device._id) > -1) { drawable = true; }
 
     if(device.last_report && device.last_report.payload.event && drawable){
-        //get selected checkbox fields from the side panel
-        var selected_fields = getSelectedFields();
 
         var location = device.last_report.payload.event.values.location;
 
@@ -69,26 +67,32 @@ function plotDevice(device, index) {
         var longitude = location.longitude;
         var altitude = location.altitude;
 
-        var payload = device.last_report.payload;
+        //get selected checkbox fields from the side panel
+        var selected_fields = getSelectedFields();
 
-        var c = $( "#lat").val();
-        var d = $( "#lon").val();
+        if(selected_fields.length == 2){
 
-        var latarr = c.split(".");
-        var lonarr = d.split(".");
+            var payload = device.last_report.payload;
 
-        var lat_build = payload[latarr[0]];
-        var lon_build = payload[lonarr[0]];
+            var c = getPath(selected_fields[0]);
+            var d = getPath(selected_fields[1]);
 
-        for (var i = 1; i < latarr.length; i++) {
-            lat_build= lat_build[latarr[i]];
+            var latarr = c.split(".");
+            var lonarr = d.split(".");
+
+            var lat_build = payload[latarr[0]];
+            var lon_build = payload[lonarr[0]];
+
+            for (var i = 1; i < latarr.length; i++) {
+                lat_build= lat_build[latarr[i]];
+            }
+            latitude = lat_build;
+
+            for (var i = 1; i < lonarr.length; i++) {
+                lon_build= lon_build[lonarr[i]];
+            }
+            longitude = lon_build;
         }
-        latitude = lat_build;
-
-        for (var i = 1; i < lonarr.length; i++) {
-            lon_build= lon_build[lonarr[i]];
-        }
-        longitude = lon_build;
 
         var speed = device.last_report.payload.event.values.speed.hor_speed;
 

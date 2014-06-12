@@ -1,0 +1,172 @@
+[1mdiff --git a/app/assets/javascripts/init.js b/app/assets/javascripts/init.js[m
+[1mindex c3d9a32..fff6d98 100755[m
+[1m--- a/app/assets/javascripts/init.js[m
+[1m+++ b/app/assets/javascripts/init.js[m
+[36m@@ -13,8 +13,8 @@[m [m$(document).ready(function(){[m
+     $('.slidePull').trigger('click');    [m
+     initMap();[m
+     getDevicesLastReports();[m
+[31m-    attachMapListeners();   [m
+[32m+[m[32m    attachMapListeners();[m
+[32m+[m
+[32m+[m[32m    buildPayloadTree();[m
+ [m
+[31m-    // buildPayloadTree();[m
+[31m-    [m
+ });[m
+\ No newline at end of file[m
+[1mdiff --git a/app/assets/javascripts/listeners.js b/app/assets/javascripts/listeners.js[m
+[1mindex 65ecd6b..b33236b 100644[m
+[1m--- a/app/assets/javascripts/listeners.js[m
+[1m+++ b/app/assets/javascripts/listeners.js[m
+[36m@@ -3,6 +3,7 @@[m [mfunction attachListeners() {[m
+     showSpinner("Attaching listeners...");[m
+     console.log("Attaching Listeners...");[m
+     setSidePanelMenuAnimations();[m
+[32m+[m[32m    setSidePanelMenuToggle();[m
+     return deferred;[m
+ }[m
+ [m
+[36m@@ -60,4 +61,13 @@[m [mfunction addMapEventHandler() {[m
+ [m
+ function onMapDoubleClick(latLonPoint, pixelArray, clickedFeature) {  [m
+     monitorMap.setCenterAndZoom(latLonPoint, monitorMap.getZoom() + 1);  [m
+[32m+[m[32m}[m
+[32m+[m
+[32m+[m[32mfunction setSidePanelMenuToggle(){[m
+[32m+[m[32m    $('.sidePanelHeader').click(function(){[m
+[32m+[m[32m        var sidePanelDetail = $(this).nextAll(".sidePanelDetail");[m
+[32m+[m[32m        sidePanelDetail.toggle();[m
+[32m+[m[32m        $(this).find("span").toggleClass('glyphicon-chevron-right');[m
+[32m+[m[32m        $(this).find("span").toggleClass('glyphicon-chevron-down');[m
+[32m+[m[32m    });[m
+ }[m
+\ No newline at end of file[m
+[1mdiff --git a/app/assets/javascripts/monitor-devices.js b/app/assets/javascripts/monitor-devices.js[m
+[1mindex 7de4433..966aa59 100644[m
+[1m--- a/app/assets/javascripts/monitor-devices.js[m
+[1m+++ b/app/assets/javascripts/monitor-devices.js[m
+[36m@@ -60,8 +60,6 @@[m [mfunction plotDevice(device, index) {[m
+     if (selected_dis.indexOf(device._id) > -1) { drawable = true; }[m
+ [m
+     if(device.last_report && device.last_report.payload.event && drawable){[m
+[31m-        //get selected checkbox fields from the side panel[m
+[31m-        var selected_fields = getSelectedFields();[m
+ [m
+         var location = device.last_report.payload.event.values.location;[m
+ [m
+[36m@@ -69,26 +67,32 @@[m [mfunction plotDevice(device, index) {[m
+         var longitude = location.longitude;[m
+         var altitude = location.altitude;[m
+ [m
+[31m-        var payload = device.last_report.payload;[m
+[32m+[m[32m        //get selected checkbox fields from the side panel[m
+[32m+[m[32m        var selected_fields = getSelectedFields();[m
+ [m
+[31m-        var c = $( "#lat").val();[m
+[31m-        var d = $( "#lon").val();[m
+[32m+[m[32m        if(selected_fields.length == 2){[m
+ [m
+[31m-        var latarr = c.split(".");[m
+[31m-        var lonarr = d.split(".");[m
+[32m+[m[32m            var payload = device.last_report.payload;[m
+ [m
+[31m-        var lat_build = payload[latarr[0]];[m
+[31m-        var lon_build = payload[lonarr[0]];[m
+[32m+[m[32m            var c = getPath(selected_fields[0]);[m
+[32m+[m[32m            var d = getPath(selected_fields[1]);[m
+ [m
+[31m-        for (var i = 1; i < latarr.length; i++) {[m
+[31m-            lat_build= lat_build[latarr[i]];[m
+[31m-        }[m
+[31m-        latitude = lat_build;[m
+[32m+[m[32m            var latarr = c.split(".");[m
+[32m+[m[32m            var lonarr = d.split(".");[m
+[32m+[m
+[32m+[m[32m            var lat_build = payload[latarr[0]];[m
+[32m+[m[32m            var lon_build = payload[lonarr[0]];[m
+[32m+[m
+[32m+[m[32m            for (var i = 1; i < latarr.length; i++) {[m
+[32m+[m[32m                lat_build= lat_build[latarr[i]];[m
+[32m+[m[32m            }[m
+[32m+[m[32m            latitude = lat_build;[m
+ [m
+[31m-        for (var i = 1; i < lonarr.length; i++) {[m
+[31m-            lon_build= lon_build[lonarr[i]];[m
+[32m+[m[32m            for (var i = 1; i < lonarr.length; i++) {[m
+[32m+[m[32m                lon_build= lon_build[lonarr[i]];[m
+[32m+[m[32m            }[m
+[32m+[m[32m            longitude = lon_build;[m
+         }[m
+[31m-        longitude = lon_build;[m
+ [m
+         var speed = device.last_report.payload.event.values.speed.hor_speed;[m
+ [m
+[1mdiff --git a/app/assets/javascripts/utils.js b/app/assets/javascripts/utils.js[m
+[1mindex 657d805..d2a1ddc 100644[m
+[1m--- a/app/assets/javascripts/utils.js[m
+[1m+++ b/app/assets/javascripts/utils.js[m
+[36m@@ -9,7 +9,7 @@[m [mfunction hideSpinner(){[m
+ [m
+ function getSelectedFields(){[m
+ 	var selected_fields = [];[m
+[31m-    $('#fields_selector li input:checked').each(function() {[m
+[32m+[m[32m    $('#tree li input:checked').each(function() {[m
+         selected_fields.push($(this).attr('name'));[m
+     });[m
+ [m
+[36m@@ -65,31 +65,17 @@[m [mfunction getRandomColors(num_colors){[m
+ }[m
+ [m
+ function buildPayloadTree(){[m
+[31m-    var jsonData = "{\"jsonData\":{\"totalCount\":1,\"data\":" +[m
+[31m-            "[{\"_id\":\"52dfc2f4b99e9cdb3a007e47\"," +[m
+[31m-            "\"created_at\":\"2014-01-22T13:09:08Z\",\"deleted_at\":null," +[m
+[31m-            "\"device_datetime\":\"2014-01-22T13:10:26+00:00\",\"device_instance_id\":\"52585e1d981800bab2000478\"," +[m
+[31m-            "\"device_type\":\"lts\",\"payload\":{\"sequenceId\":1095,\"event\":" +[m
+[31m-            "{\"eventIdx\":0,\"reportMask\":2163,\"values\":{\"fixType\":3,\"utcTime\":1390396226," +[m
+[31m-            "\"batteryLevel\":0,\"location\":{\"latitude\":52.50181,\"longitude\":0.0822153,\"altitude\":21," +[m
+[31m-            "\"hor_error_min\":0,\"hor_error_max\":0,\"vert_error\":0},\"speed\":{\"hor_speed\":10000," +[m
+[31m-            "\"ver_speed\":0,\"heading\":9000},\"motion\":{\"context\":0,\"steps\":0,\"distance\":0," +[m
+[31m-            "\"floor_change\":0}}}},\"profile_timestamps\":{\"device\":\"2014-01-22T13:10:26+00:00\"," +[m
+[31m-            "\"worker\":\"2014-01-22 13:09:08 UTC\",\"translator\":\"2014-01-22T13:10:47+00:00\"," +[m
+[31m-            "\"platform\":\"2014-01-22T13:10:49+00:00\"}," +[m
+[31m-            "\"raw_data\":\"AAIAAA5SeWFuAFJ5YW4AQ1NSAARHAQAIcwEfSyPj_-yLiQAVAAAAAAAAJxAAACMoAAAAAAAAAAAAAFLfw0IAAwAAAAA\"," +[m
+[31m-            "\"updated_at\":\"2014-01-22T13:09:08Z\"}]}}";[m
+[31m-[m
+[31m-    var obj = JSON.parse(jsonData);[m
+[31m-    var payload = obj.jsonData.data[0].payload;[m
+[31m-[m
+[31m-    var a = recursive(payload);[m
+[31m-    console.log(a);[m
+[31m-    $('#tree').html(a);[m
+[31m-[m
+[31m-    addPayloadTreeListeners();[m
+[31m-[m
+[31m-[m
+[32m+[m[41m    [m
+[32m+[m[32m    console.log("Building Tree...");[m
+[32m+[m
+[32m+[m[32m    $.ajax({[m
+[32m+[m[32m        url: "/user/get_sample_payload_data",[m
+[32m+[m[32m        "data": ""[m
+[32m+[m[32m    }).done(function (response) {[m
+[32m+[m[32m        var tree_html = recursive(response.payload);[m
+[32m+[m[32m        $('#tree').html(tree_html);[m
+[32m+[m[32m        addPayloadTreeListeners();[m
+[32m+[m[32m    });[m
+ }[m
+ [m
+ var build = "";[m
+[36m@@ -99,11 +85,9 @@[m [mfunction recursive(obj){[m
+         var child = obj[key];[m
+         [m
+         if (typeof child != "object") {[m
+[31m-            build+="<li class='"+key+"'><input type='checkbox' name='"+key+"' id='"+key+"'>"+key+": "+child+"</li>";[m
+[31m-        }[m
+[31m-[m
+[31m-        if(typeof child == "object"){[m
+[31m-            build+="<li class='parent-list'><input type='checkbox' name='"+key+"' id='"+key+"'>"+key+"<span class='glyphicon glyphicon-chevron-down'></span>";[m
+[32m+[m[32m            build+="<li class='"+key+"'><input type='checkbox' name='"+key+"' id='"+key+"'>"+key+"</li>";[m
+[32m+[m[32m        } else {[m
+[32m+[m[32m            build+="<li class='"+key+" parent-list

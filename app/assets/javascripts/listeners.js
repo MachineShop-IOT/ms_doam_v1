@@ -3,6 +3,7 @@ function attachListeners() {
     showSpinner("Attaching listeners...");
     console.log("Attaching Listeners...");
     setSidePanelMenuAnimations();
+    setSidePanelMenuToggle();
     return deferred;
 }
 
@@ -60,4 +61,13 @@ function addMapEventHandler() {
 
 function onMapDoubleClick(latLonPoint, pixelArray, clickedFeature) {  
     monitorMap.setCenterAndZoom(latLonPoint, monitorMap.getZoom() + 1);  
+}
+
+function setSidePanelMenuToggle(){
+    $('.sidePanelHeader').click(function(){
+        var sidePanelDetail = $(this).nextAll(".sidePanelDetail");
+        sidePanelDetail.toggle();
+        $(this).find("span").toggleClass('glyphicon-chevron-right');
+        $(this).find("span").toggleClass('glyphicon-chevron-down');
+    });
 }

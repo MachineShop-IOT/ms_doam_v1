@@ -1,5 +1,9 @@
 /* General CSS */
 
+.center{
+    text-align: center;
+}
+
 .right{
 	text-align: right;
 }
@@ -211,6 +215,14 @@ label.slim{
 
 ul {list-style-type:none;}
 
+.tree{
+  max-width: 400px;
+  min-height: 180px;
+  max-height: 180px;
+  overflow-y: scroll;
+  background-color: #dddddd;
+}
+
 .tree li{
   margin-left: -20px;
 }
@@ -220,6 +232,15 @@ ul {list-style-type:none;}
 }
 
 .tree li span{
+    margin-left: 5px;
+    cursor: pointer;
+}
+
+.sidePanelHeader{
+    cursor: pointer;
+}
+
+.sidePanelHeader span label{
     margin-left: 5px;
     cursor: pointer;
 }
