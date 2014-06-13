@@ -7,13 +7,22 @@ function hideSpinner(){
     $('.ajax-spinner').hide();
 }
 
-function getSelectedFields(){
-	var selected_fields = [];
-    $('#tree li input:checked').each(function() {
-        selected_fields.push($(this).attr('name'));
+function getSelectedLatField(){
+	var lat_fields = [];
+    $('#lat_tree li input:checked').each(function() {
+        lat_fields.push($(this).attr('name'));
     });
 
-    return selected_fields;
+    return lat_fields;
+}
+
+function getSelectedLonField(){
+    var lon_fields = [];
+    $('#lon_tree li input:checked').each(function() {
+        lon_fields.push($(this).attr('name'));
+    });
+
+    return lon_fields;
 }
 
 function getSelectedDeviceInstances(){
@@ -73,7 +82,8 @@ function buildPayloadTree(){
         "data": ""
     }).done(function (response) {
         var tree_html = recursive(response.payload);
-        $('#tree').html(tree_html);
+        $('#lat_tree').html(tree_html);
+        $('#lon_tree').html(tree_html);
         addPayloadTreeListeners();
     });
 }
@@ -106,7 +116,7 @@ function addPayloadTreeListeners(){
 }
 
 function getPath(field){
-    var parents = $("."+field).parents().filter("ul");
+    var parents = $("#lat_tree").find("."+field).parents().filter("ul");
     var pathArray = [];
     var path = "";
 

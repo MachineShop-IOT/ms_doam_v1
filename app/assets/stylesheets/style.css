@@ -151,19 +151,38 @@ body {
 
 ul.list {
     list-style-type: none;
-    padding: 10px;
+    padding: 0px;
     margin: 10px;
+    border-color: #cccccc;
+    border-style: solid;
+    border-width: 1px;
+    margin-left: 20px;
+}
+
+ul.list li{
+    font-weight: bold;
+    background: white;
+    padding: 6px;
+}
+
+ul.list li:nth-child(odd) {
+    background: #dedede;
+}
+
+li:nth-child(odd) {
+    background: #dedede;
 }
 
 .v-scroll{
     max-width: 400px;
     max-height:120px;
     overflow-y: scroll;
-    background-color: #dddddd;
+    /*background-color: #dddddd;*/
 }
 
 .select_all_box{
   margin: 10px 0px 0px 20px;
+  font-weight: bold;
 
 }
 
@@ -216,11 +235,16 @@ label.slim{
 ul {list-style-type:none;}
 
 .tree{
-  max-width: 400px;
-  min-height: 180px;
-  max-height: 180px;
-  overflow-y: scroll;
-  background-color: #dddddd;
+    max-width: 400px;
+    min-height: 65px;
+    max-height: 200px;
+    overflow-y: scroll;
+    border-color: #cccccc;
+    border-style: solid;
+    border-width: 1px;
+    background-color: #dddddd;
+    margin: 10px 0px 10px 20px;
+    padding-top: 10px;
 }
 
 .tree li{
@@ -236,11 +260,12 @@ ul {list-style-type:none;}
     cursor: pointer;
 }
 
-.sidePanelHeader{
-    cursor: pointer;
-}
-
 .sidePanelHeader span label{
     margin-left: 5px;
     cursor: pointer;
+    word-spacing: -5px;
+}
+
+.space{
+    margin-bottom: 5px;
 }

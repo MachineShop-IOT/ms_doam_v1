@@ -68,14 +68,15 @@ function plotDevice(device, index) {
         var altitude = location.altitude;
 
         //get selected checkbox fields from the side panel
-        var selected_fields = getSelectedFields();
+        var lat_fields = getSelectedLatField();
+        var lon_fields = getSelectedLonField();
 
-        if(selected_fields.length == 2){
+        if((lat_fields.length + lon_fields.length) >= 2){
 
             var payload = device.last_report.payload;
 
-            var c = getPath(selected_fields[0]);
-            var d = getPath(selected_fields[1]);
+            var c = getPath(lat_fields[0]);
+            var d = getPath(lon_fields[0]);
 
             var latarr = c.split(".");
             var lonarr = d.split(".");
@@ -87,11 +88,13 @@ function plotDevice(device, index) {
                 lat_build= lat_build[latarr[i]];
             }
             latitude = lat_build;
+            console.log("lat = "+latitude);
 
             for (var i = 1; i < lonarr.length; i++) {
                 lon_build= lon_build[lonarr[i]];
             }
             longitude = lon_build;
+            console.log("long = "+longitude);
         }
 
         var speed = device.last_report.payload.event.values.speed.hor_speed;
