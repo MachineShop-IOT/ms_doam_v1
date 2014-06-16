@@ -65,9 +65,20 @@ function onMapDoubleClick(latLonPoint, pixelArray, clickedFeature) {
 
 function setSidePanelMenuToggle(){
     $('.sidePanelHeader').click(function(){
+
+        $(".sidePanelHeader").each(function() {
+            var sidePanelDetail = $(this).nextAll(".sidePanelDetail");
+            $(this).find("span").addClass('glyphicon-chevron-right');
+            $(this).find("span").removeClass('glyphicon-chevron-down');
+            sidePanelDetail.hide("slow");
+        });
         var sidePanelDetail = $(this).nextAll(".sidePanelDetail");
-        sidePanelDetail.slideToggle("slow");
-        $(this).find("span").toggleClass('glyphicon-chevron-right');
-        $(this).find("span").toggleClass('glyphicon-chevron-down');
+
+        if(sidePanelDetail.css('display') != 'block'){
+            sidePanelDetail.slideToggle("slow");
+            $(this).find("span").toggleClass('glyphicon-chevron-right');
+            $(this).find("span").toggleClass('glyphicon-chevron-down');
+        }
+        
     });
 }
