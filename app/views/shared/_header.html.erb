@@ -11,20 +11,22 @@
     </div>
     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 pull-right">
         <div class="right login-info">
-            <div class="login">
-                Help | Feedback | 
-                <span>
-                <a href="/logout" class="btn btn-primary btn-sm" data-method="get" rel="nofollow">Logout</a>
-                </span>
-            </div>
+            <% if session[:user].present? %>
+                <div class="login">
+                    Help | Feedback | 
+                    <span>
+                    <a href="/logout" class="btn btn-primary btn-sm" data-method="get" rel="nofollow">Logout</a>
+                    </span>
+                </div>
 
-            <div class="username">
-                Welcome Username
-            </div>
+                <div class="username">
+                    <span>Welcome, <%= session[:user] %></span>
+                </div>
 
-            <div class="last_login">
-                Last login: 6/1/2014, 1:20:26 PM
-            </div>
+                <div class="last_login">
+                    Last login: <%= session[:last_sign_in_at] %>
+                </div>
+            <% end %>                        
         </div>
     </div>
 </div>

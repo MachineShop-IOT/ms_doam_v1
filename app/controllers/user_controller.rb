@@ -9,6 +9,8 @@ class UserController < ApplicationController
       )    
 
       session[:auth_token] = auth_token
+      session[:user] = user.first_name << " " << user.last_name
+      session[:last_sign_in_at] = user.last_sign_in_at
       redirect_to "/home", :status => :moved_permanently
     
       rescue MachineShop::AuthenticationError => ae
@@ -20,6 +22,8 @@ class UserController < ApplicationController
 
   def logout
     session[:auth_token] = nil
+    session[:user] = nil
+    session[:last_sign_in_at] = nil
     redirect_to "/index"
   end
 

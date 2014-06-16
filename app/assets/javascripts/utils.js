@@ -97,7 +97,7 @@ function recursive(obj){
         if (typeof child != "object") {
             build+="<li class='"+key+"'><input type='checkbox' name='"+key+"' id='"+key+"'>"+key+"</li>";
         } else {
-            build+="<li class='"+key+" parent-list'><input type='checkbox' disabled='disabled' name='"+key+"' id='"+key+"'>"+key+"<span class='glyphicon glyphicon-chevron-down'></span>";
+            build+="<li class='"+key+" parent-list'>"+key+"<span class='glyphicon glyphicon-chevron-down'></span>";
             build+="<ul class='"+key+"'>";
             recursive(child);
             build+="</ul></li>";
@@ -112,6 +112,22 @@ function addPayloadTreeListeners(){
         $(this).toggleClass('glyphicon-chevron-down');
         $(this).toggleClass('glyphicon-chevron-up');
         $(this).next("ul").toggle(); // toggle the visibility of the child list on click
+    });
+
+    $('#lat_tree').on('change','[type=checkbox]',function(){
+        if($('#lat_tree [type=checkbox]').filter(':checked').length === 1){
+            $('#lat_tree [type=checkbox]').filter(':not(:checked)').prop('disabled',true);
+        } else {
+            $('#lat_tree [type=checkbox]').prop('disabled',false);
+        }
+    });
+
+    $('#lon_tree').on('change','[type=checkbox]',function(){
+        if($('#lon_tree [type=checkbox]').filter(':checked').length === 1){
+            $('#lon_tree [type=checkbox]').filter(':not(:checked)').prop('disabled',true);
+        } else {
+            $('#lon_tree [type=checkbox]').prop('disabled',false);
+        }
     });
 }
 
