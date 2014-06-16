@@ -78,7 +78,7 @@ function buildPayloadTree(){
     console.log("Building Tree...");
 
     $.ajax({
-        url: "/user/get_sample_payload_data",
+        url: "/monitor/get_sample_payload_data",
         "data": ""
     }).done(function (response) {
         var tree_html = recursive(response.payload);

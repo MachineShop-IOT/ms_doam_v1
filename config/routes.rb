@@ -1,9 +1,9 @@
 DoamApp::Application.routes.draw do
   get "user/index"
   get "user/login"
-  get "user/get_last_reports"
-  get "user/get_sample_payload_data"
-  get "user/get_colored_image_for_device"
+  get "monitor/get_last_reports"
+  get "monitor/get_sample_payload_data"
+  get "monitor/get_colored_image_for_device"
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

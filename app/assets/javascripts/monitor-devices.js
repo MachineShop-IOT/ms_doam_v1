@@ -19,7 +19,7 @@ function getDevicesLastReports() {
     showSpinner("Receiving Device Last Reports...");
     var data = "adf";
     $.ajax({
-        url: "/user/get_last_reports",
+        url: "/monitor/get_last_reports",
         "data": data,
         beforeSend: function(jqXHR, settings) {
             jqXHR.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'));
@@ -50,7 +50,7 @@ function plotDevice(device, index) {
     colorArray = getRandomColors(50);
     var cdpImages = [];
     for(var i = 0; i < colorArray.length; ++i) {
-        cdpImages.push("/user/get_colored_image_for_device?color=" + colorArray[i]);
+        cdpImages.push("/monitor/get_colored_image_for_device?color=" + colorArray[i]);
     }
 
     var selected_dis = getSelectedDeviceInstances();
@@ -117,7 +117,7 @@ function plotDevice(device, index) {
         monitorMap.addMarker(marker, 'CDP_LAYER');
         console.log("Plotting device "+device._id + " at ("+latitude+", "+longitude+")");
     } else {
-        console.log("No location data in payload field... not plotting device "+device._id);
+        console.log("No data in payload field, ignoring device "+device._id);
 
         if(drawable){
 
@@ -130,7 +130,7 @@ function plotDevice(device, index) {
             marker.setLocation(latLon);
             marker.setIcon(cdpImages[index % 50], [12, 12]);
 
-            console.log("Added fake marker");
+            console.log("Added fake marker at ("+latitude+", "+longitude+")");
 
             // monitorMap.addMarker(marker, 'CDP_LAYER');
         }
