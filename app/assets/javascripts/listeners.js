@@ -65,12 +65,6 @@ function onMapDoubleClick(latLonPoint, pixelArray, clickedFeature) {
 
 function setSidePanelMenuToggle(){
     $('.sidePanelHeader').click(function(){
-
-        // $( ".container-custom" ).find( ".open" ).nextAll(".sidePanelDetail").not($(this)).slideToggle("slow");
-        // $( ".container-custom" ).find( ".open" ).find("span").toggleClass('glyphicon-chevron-right');
-        // $( ".container-custom" ).find( ".open" ).find("span").toggleClass('glyphicon-chevron-down');
-        // $( ".container-custom" ).find( ".open" ).removeClass("open");
-        
         var sidePanelDetail = $(this).nextAll(".sidePanelDetail");
         sidePanelDetail.slideToggle("slow");
         $(this).find("span").toggleClass('glyphicon-chevron-right');

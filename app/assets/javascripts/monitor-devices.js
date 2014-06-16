@@ -59,13 +59,14 @@ function plotDevice(device, index) {
     //do we need to plot the device?
     if (selected_dis.indexOf(device._id) > -1) { drawable = true; }
 
-    if(device.last_report && device.last_report.payload.event && drawable){
+    if(device.last_report && device.last_report.payload && device.last_report.payload.event && device.last_report.payload.event.values && device.last_report.payload.event.values.location && drawable){
 
         var location = device.last_report.payload.event.values.location;
 
         var latitude = location.latitude;
         var longitude = location.longitude;
         var altitude = location.altitude;
+        var speed;
 
         //get selected checkbox fields from the side panel
         var lat_fields = getSelectedLatField();
@@ -88,16 +89,18 @@ function plotDevice(device, index) {
                 lat_build= lat_build[latarr[i]];
             }
             latitude = lat_build;
-            console.log("lat = "+latitude);
 
             for (var i = 1; i < lonarr.length; i++) {
                 lon_build= lon_build[lonarr[i]];
             }
             longitude = lon_build;
-            console.log("long = "+longitude);
         }
 
-        var speed = device.last_report.payload.event.values.speed.hor_speed;
+        if(device.last_report.payload.event.values.speed){
+            speed = device.last_report.payload.event.values.speed;
+        } else {
+            speed = 0;
+        }        
 
         var marker = new Marker();
         var latLon = new mxn.LatLonPoint(latitude, longitude);
