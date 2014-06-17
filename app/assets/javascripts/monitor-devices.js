@@ -66,7 +66,7 @@ function plotDevice(device, index) {
         var latitude = location.latitude;
         var longitude = location.longitude;
         var altitude = location.altitude;
-        var speed;
+        var hor_speed;
 
         //get selected checkbox fields from the side panel
         var lat_fields = getSelectedLatField();
@@ -96,10 +96,10 @@ function plotDevice(device, index) {
             longitude = lon_build;
         }
 
-        if(device.last_report.payload.event.values.speed){
-            speed = device.last_report.payload.event.values.speed;
+        if(device.last_report.payload.event.values.speed.hor_speed){
+            hor_speed = device.last_report.payload.event.values.speed.hor_speed;
         } else {
-            speed = 0;
+            hor_speed = 0;
         }        
 
         var marker = new Marker();
@@ -109,7 +109,7 @@ function plotDevice(device, index) {
         marker.setIcon(cdpImages[index % 50], [12, 12]);
 
         template = Handlebars.compile(infoBubbleTemplate);
-        handleBarsData = { "deviceName" : device.name, "latitude" : latitude, "longitude" : longitude, "altitude" : altitude, "speed" : speed, "reportDeviceDatetime" : device.updated_at };
+        handleBarsData = { "deviceName" : device.name, "latitude" : latitude, "longitude" : longitude, "altitude" : altitude, "speed" : hor_speed, "reportDeviceDatetime" : device.updated_at };
         var infoBubble = template(handleBarsData);
 
         marker.setInfoBubble(infoBubble);
