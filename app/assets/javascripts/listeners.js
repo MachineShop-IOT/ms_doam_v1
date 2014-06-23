@@ -4,6 +4,8 @@ function attachListeners() {
     console.log("Attaching Listeners...");
     setSidePanelMenuAnimations();
     setSidePanelMenuToggle();
+    setWindowResizeHandlers();
+    adjustMapSize();
     return deferred;
 }
 
@@ -80,5 +82,21 @@ function setSidePanelMenuToggle(){
             $(this).find("span").toggleClass('glyphicon-chevron-down');
         }
         
+    });
+}
+
+function adjustMapSize(){
+    var win_height = $(window).height();
+    var head_height = $("#header").height();
+    var nav_height = $("#navbar").height();
+    var foot_height = $("#footer").height();
+
+    map_height = win_height - head_height - nav_height - foot_height;
+    $("#doam_app_map").height(map_height+"px");
+}
+
+function setWindowResizeHandlers(){
+    $(window).resize(function() {
+        adjustMapSize();
     });
 }

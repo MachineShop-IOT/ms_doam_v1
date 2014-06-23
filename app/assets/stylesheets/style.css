@@ -37,13 +37,13 @@ input{
 h1, h2, h3, h4 {
 	font-weight: normal;
 	margin: 0px;
-	padding: 10px;
+	padding: -1px;
 	color: #004880;
 }
 
 
 #doam_app_map{
-	height: 450px;
+	height: 465px;
 }
 
 .user-login-form{
@@ -91,18 +91,19 @@ body {
   height: auto !important;
   height: 100%;
   /* Negative indent footer by its height */
-  margin: 0 auto -20px;
+  margin: 0 auto -37px;
   /* Pad bottom by footer height */
   padding: 0 0 20px;
 }
 
 /* Set the fixed height of the footer here */
 .footer {
-  height: 30px;
+  height: -1px;
   background-color: #508bb9;
   color: #003660;
   font-size: 12px;
-  padding: 5px;
+  padding-top: 15px;
+  /*padding-bottom: 2px;*/
   font-weight: bold;
 }
 
