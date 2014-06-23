@@ -86,19 +86,41 @@ function plotDevice(device, index) {
             var lon_build = payload[lonarr[0]];
 
             for (var i = 1; i < latarr.length; i++) {
-                lat_build= lat_build[latarr[i]];
+                try{
+                    lat_build= lat_build[latarr[i]];
+                }
+                catch(e){
+                    console.log("Checked field is not a valid property..."+e);
+                    lat_build = null;
+                    break;
+                }
+
             }
             latitude = lat_build;
 
             for (var i = 1; i < lonarr.length; i++) {
-                lon_build= lon_build[lonarr[i]];
+                try{
+                    lon_build= lon_build[lonarr[i]];
+                }
+                catch(e){
+                    console.log("Checked field is not a valid property..."+e);
+                    lon_build = null;
+                    break;
+                }
             }
             longitude = lon_build;
         }
 
-        if(device.last_report.payload.event.values.speed && device.last_report.payload.event.values.speed.hor_speed) {
+        // if(device.last_report.payload.event.values.speed && device.last_report.payload.event.values.speed.hor_speed) {
+        //     hor_speed = device.last_report.payload.event.values.speed.hor_speed;
+        // } else {
+        //     hor_speed = 0;
+        // }
+
+        try{
             hor_speed = device.last_report.payload.event.values.speed.hor_speed;
-        } else {
+        }
+        catch(e){
             hor_speed = 0;
         }
 
@@ -114,8 +136,13 @@ function plotDevice(device, index) {
 
         marker.setInfoBubble(infoBubble);
 
-        monitorMap.addMarker(marker, 'CDP_LAYER');
-        console.log("Plotting device "+device._id + " at ("+latitude+", "+longitude+")");
+        if(longitude==null || latitude==null){
+            console.log("Selected field doesnot exist in the device report... ignoring....");
+        } else {
+            monitorMap.addMarker(marker, 'CDP_LAYER');
+            console.log("Plotting device "+device._id + " at ("+latitude+", "+longitude+")");
+        }
+
     } else {
         console.log("No data in payload field, ignoring device "+device._id);
 
