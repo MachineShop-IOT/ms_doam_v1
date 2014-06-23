@@ -1,6 +1,6 @@
 function initMap(){
     showSpinner("Initializing Map...");
-    console.log("Initializing Map..."); 
+    console.log("Initializing Map...");
     monitorMap = new mxn.Mapstraction('doam_app_map', 'openlayers');
     monitorMap.addControlsArgs.zoom = true;
     monitorMap.addLayer("GOOGLE", "Google Map");
@@ -96,11 +96,11 @@ function plotDevice(device, index) {
             longitude = lon_build;
         }
 
-        if(device.last_report.payload.event.values.speed.hor_speed){
+        if(device.last_report.payload.event.values.speed && device.last_report.payload.event.values.speed.hor_speed) {
             hor_speed = device.last_report.payload.event.values.speed.hor_speed;
         } else {
             hor_speed = 0;
-        }        
+        }
 
         var marker = new Marker();
         var latLon = new mxn.LatLonPoint(latitude, longitude);
@@ -134,6 +134,6 @@ function plotDevice(device, index) {
 
             // monitorMap.addMarker(marker, 'CDP_LAYER');
         }
-    }    
+    }
 
 }
