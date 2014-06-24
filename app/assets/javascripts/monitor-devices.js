@@ -1,32 +1,46 @@
+var map;
+var markers_layer;
+var controls;
+
 function initMap(){
     showSpinner("Initializing Map...");
     console.log("Initializing Map...");
-    monitorMap = new mxn.Mapstraction('doam_app_map', 'openlayers');
-    monitorMap.addControlsArgs.zoom = true;
-    monitorMap.addLayer("GOOGLE", "Google Map");
-    monitorMap.setCenter(new mxn.LatLonPoint(defaultMonitorCenterLat, defaultMonitorCenterLon), {'pan': true});
-    monitorMap.updateMapSize();
-    monitorMap.setZoom('0');
+
+    map = new OpenLayers.Map('doam_app_map', {
+        projection: 'EPSG:3857',
+        layers: [
+            new OpenLayers.Layer.Google(
+                "Google Streets", // the default
+                {numZoomLevels: 20}
+            )
+        ],
+        center: new OpenLayers.LonLat(defaultMonitorCenterLat, defaultMonitorCenterLon)
+            // Google.v3 uses web mercator as projection, so we have to
+            // transform our coordinates
+            .transform('EPSG:4326', 'EPSG:3857'),
+        zoom: 0
+    });
+    map.addControl(new OpenLayers.Control.LayerSwitcher());
+    markers_layer = new OpenLayers.Layer.Vector("Devices");
+    map.addLayer(markers_layer);
 }
 
 function clearLayers(){
-    // monitorMap.removeAllPopups();
-    // monitorMap.removeAllMarkers();
-    monitorMap.removeLayer('CDP_LAYER');
+    markers_layer.destroyFeatures();
 }
 
 function getDevicesLastReports() {
     showSpinner("Receiving Device Last Reports...");
-    var data = "adf";
+    
     $.ajax({
         url: "/monitor/get_last_reports",
-        "data": data,
         beforeSend: function(jqXHR, settings) {
             jqXHR.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'));
         }
     }).done(function (response) {
         // console.log(response);
         plotDevices(response);
+
     });
 }
 
@@ -41,7 +55,9 @@ function plotDevices(response) {
         plotDevice(response.last_reports[i], i);
     }
 
-    monitorMap.zoomToLayer('CDP_LAYER');
+    var bounds = markers_layer.getDataExtent();
+    map.zoomToExtent(bounds);
+
     hideSpinner();
 }
 
@@ -52,6 +68,7 @@ function plotDevice(device, index) {
     for(var i = 0; i < colorArray.length; ++i) {
         cdpImages.push("/monitor/get_colored_image_for_device?color=" + colorArray[i]);
     }
+    var colored_marker = cdpImages[index % 50]; 
 
     var selected_dis = getSelectedDeviceInstances();
     var drawable = false;
@@ -111,12 +128,6 @@ function plotDevice(device, index) {
             longitude = lon_build;
         }
 
-        // if(device.last_report.payload.event.values.speed && device.last_report.payload.event.values.speed.hor_speed) {
-        //     hor_speed = device.last_report.payload.event.values.speed.hor_speed;
-        // } else {
-        //     hor_speed = 0;
-        // }
-
         try{
             hor_speed = device.last_report.payload.event.values.speed.hor_speed;
         }
@@ -124,22 +135,24 @@ function plotDevice(device, index) {
             hor_speed = 0;
         }
 
-        var marker = new Marker();
-        var latLon = new mxn.LatLonPoint(latitude, longitude);
-
-        marker.setLocation(latLon);
-        marker.setIcon(cdpImages[index % 50], [12, 12]);
-
         template = Handlebars.compile(infoBubbleTemplate);
         handleBarsData = { "deviceName" : device.name, "latitude" : latitude, "longitude" : longitude, "altitude" : altitude, "speed" : hor_speed, "reportDeviceDatetime" : device.updated_at };
         var infoBubble = template(handleBarsData);
 
-        marker.setInfoBubble(infoBubble);
+        var lonLat = new OpenLayers.LonLat(latitude , longitude).transform('EPSG:4326', 'EPSG:3857');
+        
+        // Define markers as "features" of the vector layer:
+        var feature = new OpenLayers.Feature.Vector(
+                new OpenLayers.Geometry.Point(longitude, latitude).transform('EPSG:4326', 'EPSG:3857'),
+                {description: infoBubble} ,
+                {externalGraphic: colored_marker, graphicHeight: 12, graphicWidth: 12, graphicXOffset:-6, graphicYOffset:-6  }
+            );
+
 
         if(longitude==null || latitude==null){
             console.log("Selected field doesnot exist in the device report... ignoring....");
         } else {
-            monitorMap.addMarker(marker, 'CDP_LAYER');
+            markers_layer.addFeatures(feature);
             console.log("Plotting device "+device._id + " at ("+latitude+", "+longitude+")");
         }
 
@@ -151,16 +164,49 @@ function plotDevice(device, index) {
             var latitude = Math.floor(Math.random() * 120) - 100;
             var longitude = Math.floor(Math.random() * 120) - 100;
 
-            var marker = new Marker();
-            var latLon = new mxn.LatLonPoint(latitude, longitude);
+            var lonLat = new OpenLayers.LonLat(latitude , longitude).transform('EPSG:4326', 'EPSG:3857');                 
+            
+            // Define markers as "features" of the vector layer:
+            var feature = new OpenLayers.Feature.Vector(
+                    new OpenLayers.Geometry.Point(longitude, latitude).transform('EPSG:4326', 'EPSG:3857'),
+                    {description:'Dummy'} ,
+                    {externalGraphic: colored_marker, graphicHeight: 12, graphicWidth: 12, graphicXOffset:-6, graphicYOffset:-6  }
+                );    
+            // markers_layer.addFeatures(feature);
 
-            marker.setLocation(latLon);
-            marker.setIcon(cdpImages[index % 50], [12, 12]);
 
-            console.log("Added fake marker at ("+latitude+", "+longitude+")");
-
-            // monitorMap.addMarker(marker, 'CDP_LAYER');
         }
     }
 
+    map.setCenter (lonLat, 2);
+
+    //Add a selector control to the markers_layer with popup functions
+    controls = {
+      selector: new OpenLayers.Control.SelectFeature(markers_layer, { onSelect: createPopup, onUnselect: destroyPopup })
+    };
+
+    map.addControl(controls['selector']);
+    controls['selector'].activate();
+
+}
+
+
+function createPopup(feature) {
+  feature.popup = new OpenLayers.Popup.FramedCloud("pop",
+      feature.geometry.getBounds().getCenterLonLat(),
+      null,
+      '<div class="markerContent">'+feature.attributes.description+'</div>',
+      null,
+      true,
+      function() { 
+        controls['selector'].unselectAll();
+       }
+  );
+  //feature.popup.closeOnMove = true;
+  map.addPopup(feature.popup);
+}
+
+function destroyPopup(feature) {
+  feature.popup.destroy();
+  feature.popup = null;
 }
