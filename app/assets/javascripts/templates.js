@@ -1,1 +1,1 @@
-infoBubbleTemplate = "<div><b>Device: </b>{{deviceName}}<br/><b>Lat: </b>{{latitude}}, <b>Lon: </b>{{longitude}}<br/><b>Alt: </b> {{altitude}}, <b>Speed: </b>{{speed}}<br/><b>Timestamp: </b>{{reportDeviceDatetime}}<br/><img class='hoverInfo' src='/assets/info_icon.png'style='padding: 0px 5px 0 0; height: 30px;'/>";
+infoBubbleTemplate = "<div><b>Device: </b>{{deviceName}}<br/><b>Lat: </b>{{latitude}}<br><b>Lon: </b>{{longitude}}<br/><b>Alt: </b> {{altitude}}<br> <b>Timestamp: </b>{{reportDeviceDatetime}}<br/>";

@@ -1,5 +1,6 @@
 require 'machineshop'
 require 'RMagick'
+
 class UserController < ApplicationController
   def authenticate
     begin
@@ -53,7 +54,7 @@ class UserController < ApplicationController
       session[:auth_token] = params['apiKey']['api_key']
       redirect_to "/home"
     rescue MachineShop::AuthenticationError => ae
-      redirect_to "/index/false", :status => :moved_permanently, :login => 'asdad'
+      redirect_to "/index", :status => :moved_permanently, :login => 'asdad'
     rescue MachineShop::APIConnectionError => ape
       redirect_to "/index", :status => :moved_permanently, :login => 'asdad'
     end

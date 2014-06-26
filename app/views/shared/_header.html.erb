@@ -11,7 +11,7 @@
     </div>
     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 pull-right">
         <div class="right login-info">
-            <% if session[:user].present? %>
+            <% if session[:auth_token].present? %>
                 <div class="login">
                     Help | Feedback | 
                     <span>
