@@ -1,3 +1,7 @@
+var SAMPLE_PAYLOAD_URL = "/monitor/get_sample_payload_data";
+var ADDRESS_BY_LATLON_URL = "/util/get_address_by_latlon";
+var WEATHER_URL = "/util/get_weather";
+
 function showSpinner(message){
     $('.ajax-spinner').html('<div class="loader-block"><img src="assets/ajax-loader.gif" title="ajax loader workin"> '+message+'</div>');
     $('.ajax-spinner').show();
@@ -78,8 +82,7 @@ function buildPayloadTree(){
     console.log("Building Tree...");
 
     $.ajax({
-        url: "/monitor/get_sample_payload_data",
-        "data": ""
+        url: SAMPLE_PAYLOAD_URL
     }).done(function (response) {
         var tree_html = recursive(response.payload);
         $('#lat_tree').html(tree_html);
@@ -147,4 +150,52 @@ function getPath(field){
     } else {
         return field;
     }
+}
+
+function getAddressByLatlon(lat, lon){
+
+    var address;
+
+    var jqXHR = $.ajax({
+        url: ADDRESS_BY_LATLON_URL+"?latlon="+lat+","+lon,
+        async: false,
+        beforeSend: function(jqXHR, settings) {
+            jqXHR.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'));
+        }
+    }).done(function (response) {
+        // console.log(response.results[0].formatted_address);
+    });
+
+    var response = jqXHR.responseText;
+    var o = $.parseJSON(response);
+
+    var address = o.results[0].formatted_address;
+
+    console.log(o);
+
+    return address;
+
+}
+
+function getWeather(){
+
+    var address;
+
+    var jqXHR = $.ajax({
+        url: WEATHER_URL+"?state=CO&city=Denver",
+        async: false,
+        beforeSend: function(jqXHR, settings) {
+            jqXHR.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'));
+        }
+    }).done(function (response) {
+        // console.log(response.results[0].formatted_address);
+    });
+
+    var response = jqXHR.responseText;
+    var weather = $.parseJSON(response);
+
+    console.log(weather);
+
+    return address;
+
 }

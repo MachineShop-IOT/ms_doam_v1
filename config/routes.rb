@@ -4,6 +4,8 @@ DoamApp::Application.routes.draw do
   get "monitor/get_last_reports"
   get "monitor/get_sample_payload_data"
   get "monitor/get_colored_image_for_device"
+  get "util/get_address_by_latlon"
+  get "util/get_weather"
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

@@ -1,4 +1,4 @@
-# require 'RMagick'
+require 'RMagick'
 class MonitorController < ApplicationController
 
   # before_filter :require_signed_in_user
@@ -65,6 +65,20 @@ class MonitorController < ApplicationController
     gc.draw(canvas)
  
     send_data canvas.to_blob, :type => 'image/png',:disposition => 'inline'
+  end
+
+  def get_address_by_latlon()
+
+    addresses = MachineShop::Mapping.geocode(
+        {
+          :latlng => params[:latlon],
+          # :sensor => "false"
+        }, session[:auth_token])
+
+    respond_to do |format|
+      format.json { render json: addresses.to_json }
+    end
+      
   end
 
 end

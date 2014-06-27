@@ -1,0 +1,68 @@
+<div class="api_info" style="display:none;width:45%;">
+    <div class="api_content">
+        <p>
+          <label class="title">Get the device instances</label>
+          <label class="sub_title">Get all the device instances of the user</label>
+          <pre>
+
+    MachineShop::DeviceInstance.all(
+  {:name => "instance_name"},
+  auth_token
+    )
+          </pre>
+        </p>
+    </div>
+
+    <div class="api_content">
+        <p>
+          <label class="sub_title">Http_method : Get</label>
+        </p>
+    </div>
+
+    <div class="api_content">
+        <p>
+          <label class="sub_title">Parameters</label>
+          <label class="content">auth_token</label>
+          <label class="content">filter_parameters</label>
+          <label class="content">* name</label>
+
+          <label class="content">Pass first parameter as empty array if no filters to be applied</label>
+        </p>
+    </div>
+
+    <div class="api_content">
+        <p>
+          <label class="sub_title">Response Example</label>
+          <pre>
+  {
+  "id" => "51795428911800d51400016c",
+      "_id" => "51795428911800d51400016c",
+      "active" => true,
+    "created_at" => "2014-06-09T10:02:50Z",
+    "deleted_at" => nil,
+    "exe_path" => "/etc/foo",
+    "image_url" => "http://someurl.com/your_image.png",
+    "init_cmd" => "my_init_cmd",
+    "init_params" => "{'init':'go'}",
+    "last_known_translator_port" => nil,
+    "long_description" => "This device tracks position and NCAA football conference.",
+    "manual_url" => "http://someurl.com/manual.pdf",
+    "manufacturer" => "a company",
+    "model" => "D-vice 1000",
+    "name" => "my_device",
+    "rule_ids" => [],
+    "sample_data" => "some arbitrary sample data",
+    "software" => nil,
+    "tag_ids" => [],
+    "translator" => nil,
+    "type" => "Test",
+    "unit_price" => "$199.99",
+    "updated_at" => "2014-06-09T10:02:50Z",
+    "user_id" => "11161696201800aaef000056",
+    "http_code" => 200
+  }
+          </pre>
+        </p>
+    </div>
+
+</div>
