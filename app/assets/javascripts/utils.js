@@ -154,7 +154,9 @@ function getPath(field){
 
 function getAddressByLatlon(lat, lon){
 
-    var address;
+    console.log("address lat lon"+lat+"--"+lon);
+
+    var city, state, address, addressArr, add;
 
     var jqXHR = $.ajax({
         url: ADDRESS_BY_LATLON_URL+"?latlon="+lat+","+lon,
@@ -169,20 +171,31 @@ function getAddressByLatlon(lat, lon){
     var response = jqXHR.responseText;
     var o = $.parseJSON(response);
 
-    var address = o.results[0].formatted_address;
-
+    console.log("respons");
     console.log(o);
 
-    return address;
+    try{
+        address = o.results[0].formatted_address;
+        addressArr = address.split(',');
+        city = addressArr[1].trim();
+        state = addressArr[2].trim().split(' ')[0].trim();
+
+        add = { "full_address": address, "city": city, "state": state };
+    } catch(e) {
+        //water everywhere
+        add = null;
+    }
+
+    return add;
 
 }
 
-function getWeather(){
+function getWeather(state, city){
 
-    var address;
+    city = city.replace(" ", "+");
 
     var jqXHR = $.ajax({
-        url: WEATHER_URL+"?state=CO&city=Denver",
+        url: WEATHER_URL+"?state="+state+"&city="+city,
         async: false,
         beforeSend: function(jqXHR, settings) {
             jqXHR.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'));
@@ -192,10 +205,13 @@ function getWeather(){
     });
 
     var response = jqXHR.responseText;
-    var weather = $.parseJSON(response);
+    var o = $.parseJSON(response);
 
-    console.log(weather);
+    var weather = o.alerts;
 
-    return address;
+    weather = weather.weather+", Temperature: "+weather.temp_f+"°F ("+weather.temp_c+"°C), Humidity: "+weather.relative_humidity;
+
+
+    return weather;
 
 }

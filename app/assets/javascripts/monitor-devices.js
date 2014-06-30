@@ -79,10 +79,7 @@ function plotDevice(device, index) {
 
     if(device.last_report && drawable){
 
-        var location;
-        var latitude;
-        var longitude;
-        var address;
+        var location, latitude, longitude, address, weather;
 
         //trying to set default location data as "payload.event.values.location"
         try{
@@ -144,11 +141,20 @@ function plotDevice(device, index) {
         if(latitude==null || longitude==null){
             address = "";
         } else{
-           address= getAddressByLatlon(latitude, longitude); 
+           addressObj= getAddressByLatlon(latitude, longitude);
+
+           try{
+                address = addressObj.full_address;
+                weather = getWeather(addressObj.state, addressObj.city);
+            } catch(e){
+                //water water everywhere
+                address = "N/A";
+                weather = "N/A";
+            }
        }
         
         template = Handlebars.compile(infoBubbleTemplate);
-        handleBarsData = { "deviceName" : device.name, "latitude" : latitude, "longitude" : longitude, "address" : address, "reportDeviceDatetime" : device.updated_at };
+        handleBarsData = { "deviceName" : device.name, "latitude" : latitude, "longitude" : longitude, "address" : address, "weather" : weather, "reportDeviceDatetime" : device.updated_at };
         var infoBubble = template(handleBarsData);
 
         var lonLat = new OpenLayers.LonLat(latitude , longitude).transform('EPSG:4326', 'EPSG:3857');

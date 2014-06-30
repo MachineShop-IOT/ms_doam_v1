@@ -1,1 +1,1 @@
-infoBubbleTemplate = "<div><b>Device: </b>{{deviceName}}<br/><b>Lat: </b>{{latitude}}<br><b>Lon: </b>{{longitude}}<br/><b>Address: </b> {{address}}<br> <b>Timestamp: </b>{{reportDeviceDatetime}}<br/>";
+infoBubbleTemplate = "<div><b>Device: </b>{{deviceName}}<br/><b>Lat: </b>{{latitude}}, <b>Lon: </b>{{longitude}}<br/><b>Address: </b> {{address}}<br> <b>Weather: </b> {{weather}}<br><b>Timestamp: </b>{{reportDeviceDatetime}}<br/>";

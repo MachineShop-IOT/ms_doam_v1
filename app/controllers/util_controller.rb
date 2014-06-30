@@ -22,16 +22,14 @@ class UtilController < ApplicationController
 
   def get_weather()
 
-    endpoint = "/platform/google/geocode/json?latlng=40.714224,-73.961452"      
-    test = platform_request(endpoint, nil, :get, session[:auth_token])
+    state =  params[:state]
+    city = params[:city].tr(" ", "+")
 
-    puts "-------------"
-    puts test
-
-    # test = "weather"
+    url = "http://192.168.0.119:3000/api/v1/platform/utility/weather_report/?state=#{state}&city=#{city}"
+    response = api_request(url, nil, :get, session[:auth_token])
 
     respond_to do |format|
-      format.json { render json: test.to_json }
+      format.json { render json: response.to_json }
     end
       
   end
@@ -59,6 +57,29 @@ class UtilController < ApplicationController
     def headers(authentication_token)
       heads = { content_type: :json, accept: :json }
       heads.merge!({ authorization: "Basic " + Base64.encode64(authentication_token+':X') }) if authentication_token
+      puts "auth_token_hash : #{heads}"
+      heads
+    end
+
+    def api_request(url, body_hash, http_verb, authentication_token)
+      body = (http_verb == :get ? body_hash : body_hash.to_json)
+      begin
+        if http_verb == :get || http_verb == :delete
+          json_response = RestClient.public_send(http_verb, url, api_headers(authentication_token).merge({ params: body }))
+        else
+          json_response = RestClient.public_send(http_verb, url, body, api_headers(authentication_token))
+        end
+      rescue RestClient::Exception => e
+        json_response = e.http_body
+      end
+
+      json_response ||="[]"
+      return JSON.parse(json_response, :symbolize_names => true)
+    end
+
+    def api_headers(authentication_token)
+      heads = { content_type: :json, accept: :json }
+      heads.merge!({ authorization: "Basic V0QxVjVzYjdUcG1ibmZuQlNEbks6WA==" }) if authentication_token
       puts "auth_token_hash : #{heads}"
       heads
     end
