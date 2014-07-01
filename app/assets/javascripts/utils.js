@@ -152,9 +152,73 @@ function getPath(field){
     }
 }
 
+//get latitude as selected checkbox in the tree
+function getLatitude(payload){
+
+    //get selected checkbox fields from the side panel
+    var lat_fields = getSelectedLatField();
+
+    var lat_path = getPath(lat_fields[0]);
+    var latArr = lat_path.split(".");
+    var lat_build = payload[latArr[0]];
+
+    for (var i = 1; i < latArr.length; i++) {
+        try{
+            lat_build= lat_build[latArr[i]];
+        }
+        catch(e){
+            // console.log("Checked field is not a valid property..."+e);
+            lat_build = null;
+            break;
+        }
+
+    }
+    
+    return lat_build;
+}
+
+//get longitude as selected checkbox in the tree
+function getLongitude(payload){
+
+    //get selected checkbox fields from the side panel
+    var lon_fields = getSelectedLonField();
+    var lon_path = getPath(lon_fields[0]);
+    var lonArr = lon_path.split(".");
+    var lon_build = payload[lonArr[0]];
+
+    for (var i = 1; i < lonArr.length; i++) {
+        try{
+            lon_build= lon_build[lonArr[i]];
+        }
+        catch(e){
+            // console.log("Checked field is not a valid property..."+e);
+            lon_build = null;
+            break;
+        }
+
+    }
+    
+    return lon_build;
+}
+
+function latAndLongBothSelected(){
+
+    //get selected checkbox fields from the side panel
+    var lat_fields = getSelectedLatField();
+    var lon_fields = getSelectedLonField();
+
+    if((lat_fields.length + lon_fields.length) >= 2){
+        return true;
+    } else {
+        return false;
+    }
+}
+
 function getAddressByLatlon(lat, lon){
 
-    console.log("address lat lon"+lat+"--"+lon);
+    if(lat == null || lon == null){
+        return { "full_address": "N/A", "city": null, "state": null };
+    }
 
     var city, state, address, addressArr, add;
 
@@ -171,9 +235,6 @@ function getAddressByLatlon(lat, lon){
     var response = jqXHR.responseText;
     var o = $.parseJSON(response);
 
-    console.log("respons");
-    console.log(o);
-
     try{
         address = o.results[0].formatted_address;
         addressArr = address.split(',');
@@ -183,7 +244,7 @@ function getAddressByLatlon(lat, lon){
         add = { "full_address": address, "city": city, "state": state };
     } catch(e) {
         //water everywhere
-        add = null;
+        add = { "full_address": "N/A", "city": null, "state": null };
     }
 
     return add;
@@ -192,6 +253,11 @@ function getAddressByLatlon(lat, lon){
 
 function getWeather(state, city){
 
+    if(state == null || city == null){
+        return "N/A";
+    }
+
+    var weather;
     city = city.replace(" ", "+");
 
     var jqXHR = $.ajax({
@@ -207,10 +273,12 @@ function getWeather(state, city){
     var response = jqXHR.responseText;
     var o = $.parseJSON(response);
 
-    var weather = o.alerts;
-
-    weather = weather.weather+", Temperature: "+weather.temp_f+"°F ("+weather.temp_c+"°C), Humidity: "+weather.relative_humidity;
-
+    try{
+        weather = o.alerts;
+        weather = weather.temp_f ? weather.weather+", Temperature: "+weather.temp_f+"°F ("+weather.temp_c+"°C), Humidity: "+weather.relative_humidity :  "N/A";
+    } catch(e) {
+        weather = "N/A";
+    }
 
     return weather;
 

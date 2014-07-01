@@ -30,7 +30,8 @@ function clearLayers(){
 }
 
 function getDevicesLastReports() {
-    showSpinner("Receiving Device Last Reports...");
+    showSpinner("Plotting devices...");
+    console.log("Plotting devices...");
     
     $.ajax({
         url: "/monitor/get_last_reports",
@@ -47,9 +48,6 @@ function getDevicesLastReports() {
 function plotDevices(response) {
 
     clearLayers();
-
-    showSpinner("Plotting devices...");
-    console.log("Plotting devices...");
 
     for (var i = 0; i < response.last_reports.length; i++) {
         plotDevice(response.last_reports[i], i);
@@ -68,11 +66,11 @@ function plotDevice(device, index) {
     colorArray = getRandomColors(50);
     var cdpImages = [];
     for(var i = 0; i < colorArray.length; ++i) {
-        cdpImages.push("/monitor/get_colored_image_for_device?color=" + colorArray[i]);
+        cdpImages.push("/util/get_colored_image_for_device?color=" + colorArray[i]);
     }
     var colored_marker = cdpImages[index % 50]; 
 
-    var selected_dis = getSelectedDeviceInstances();   
+    var selected_dis = getSelectedDeviceInstances(); 
 
     //do we need to plot the device?
     if (selected_dis.indexOf(device._id) > -1) { drawable = true; }
@@ -94,64 +92,19 @@ function plotDevice(device, index) {
             altitude = 0;
         }
 
-        //get selected checkbox fields from the side panel
-        var lat_fields = getSelectedLatField();
-        var lon_fields = getSelectedLonField();
-
         //do we have both lat and lon fields checked?
-        if((lat_fields.length + lon_fields.length) >= 2){
-
+        if(latAndLongBothSelected()){
             var payload = device.last_report.payload;
-
-            var c = getPath(lat_fields[0]);
-            var d = getPath(lon_fields[0]);
-
-            var latarr = c.split(".");
-            var lonarr = d.split(".");
-
-            var lat_build = payload[latarr[0]];
-            var lon_build = payload[lonarr[0]];
-
-            for (var i = 1; i < latarr.length; i++) {
-                try{
-                    lat_build= lat_build[latarr[i]];
-                }
-                catch(e){
-                    // console.log("Checked field is not a valid property..."+e);
-                    lat_build = null;
-                    break;
-                }
-
-            }
-            latitude = lat_build;
-
-            for (var i = 1; i < lonarr.length; i++) {
-                try{
-                    lon_build= lon_build[lonarr[i]];
-                }
-                catch(e){
-                    // console.log("Checked field is not a valid property..."+e);
-                    lon_build = null;
-                    break;
-                }
-            }
-            longitude = lon_build;
+            latitude = getLatitude(payload);
+            longitude = getLongitude(payload);
         }
 
-        if(latitude==null || longitude==null){
-            address = "";
-        } else{
-           addressObj= getAddressByLatlon(latitude, longitude);
+        // var latitude = Math.floor(Math.random() * 40) - 39 + 58;
+        // var longitude = Math.floor(Math.random() * 30) - 29 - 87;
 
-           try{
-                address = addressObj.full_address;
-                weather = getWeather(addressObj.state, addressObj.city);
-            } catch(e){
-                //water water everywhere
-                address = "N/A";
-                weather = "N/A";
-            }
-       }
+        addressObj= getAddressByLatlon(latitude, longitude);
+        address = addressObj.full_address;
+        weather = getWeather(addressObj.state, addressObj.city);
         
         template = Handlebars.compile(infoBubbleTemplate);
         handleBarsData = { "deviceName" : device.name, "latitude" : latitude, "longitude" : longitude, "address" : address, "weather" : weather, "reportDeviceDatetime" : device.updated_at };
@@ -166,7 +119,6 @@ function plotDevice(device, index) {
                 {externalGraphic: colored_marker, graphicHeight: 12, graphicWidth: 12, graphicXOffset:-6, graphicYOffset:-6  }
             );
 
-
         if(longitude==null || latitude==null){
             console.log("Selected field doesnot exist in the device report... ignoring....");
         } else {
@@ -179,8 +131,8 @@ function plotDevice(device, index) {
 
         if(drawable){
 
-            var latitude = Math.floor(Math.random() * 120) - 100;
-            var longitude = Math.floor(Math.random() * 120) - 100;
+            var latitude = Math.floor(Math.random() * 60) - 50;
+            var longitude = Math.floor(Math.random() * 60) - 50;
 
             var lonLat = new OpenLayers.LonLat(latitude , longitude).transform('EPSG:4326', 'EPSG:3857');                 
             
@@ -191,12 +143,8 @@ function plotDevice(device, index) {
                     {externalGraphic: colored_marker, graphicHeight: 12, graphicWidth: 12, graphicXOffset:-6, graphicYOffset:-6  }
                 );    
             // markers_layer.addFeatures(feature);
-
-
         }
     }
-
-    map.setCenter (lonLat, 2);
 
     //Add a selector control to the markers_layer with popup functions
     controls = {
