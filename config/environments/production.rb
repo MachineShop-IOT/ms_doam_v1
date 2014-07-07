@@ -1,6 +1,5 @@
 DoamApp::Application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
-  MachineShop.api_base_url = 'https://services.machineshop.io/api/v0'
   # Code is not reloaded between requests.
   config.cache_classes = true
 
