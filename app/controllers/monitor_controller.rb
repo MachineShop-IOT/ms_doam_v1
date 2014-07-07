@@ -1,4 +1,4 @@
-# require 'RMagick'
+require 'RMagick'
 class MonitorController < ApplicationController
 
   # before_filter :require_signed_in_user
@@ -38,33 +38,34 @@ class MonitorController < ApplicationController
       
   end
 
-  def get_colored_image_for_device
+  # def get_colored_image_for_device
 
-    puts "Returning image for #{params[:color]}"
-    image_size = 12 
-    circleX = 5
-    circleY = 5
-    radius = 5
+  #   puts "Returning image for #{params[:color]}"
+  #   image_size = 12 
+  #   circleX = 5
+  #   circleY = 5
+  #   radius = 5
 
-    canvas = Magick::Image.new(image_size, image_size) { self.background_color = '#ffffff00' }
-    canvas.format='PNG'
+  #   canvas = Magick::Image.new(image_size, image_size) { self.background_color = '#ffffff00' }
+  #   canvas.format='PNG'
    
-    gc = Magick::Draw.new
+  #   gc = Magick::Draw.new
   
-    gc.stroke(params[:color])
-    gc.fill(params[:color])
+  #   gc.stroke(params[:color])
+  #   gc.fill(params[:color])
     
-    gc.stroke_width(1)
-    gc.fill_opacity(1)
+  #   gc.stroke_width(1)
+  #   gc.fill_opacity(1)
 
-    # rmagick, instead of allowing one to specify a center and
-    # radius, requires a dev to specify the center and then 
-    # specify a *point on the perimeter*
-    gc.circle(circleX, circleY, circleX - radius, circleX)
+  #   # rmagick, instead of allowing one to specify a center and
+  #   # radius, requires a dev to specify the center and then 
+  #   # specify a *point on the perimeter*
+  #   gc.circle(circleX, circleY, circleX - radius, circleX)
   
-    gc.draw(canvas)
+  #   gc.draw(canvas)
  
-    send_data canvas.to_blob, :type => 'image/png',:disposition => 'inline'
-  end
+  #   send_data canvas.to_blob, :type => 'image/png',:disposition => 'inline'
+  # end
+
 
 end

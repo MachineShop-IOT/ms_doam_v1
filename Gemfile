@@ -53,3 +53,4 @@ end
 # gem 'debugger', group: [:development, :test]
 
 gem 'rmagick'
+gem 'rest-client', '~> 1.6.7'

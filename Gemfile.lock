@@ -122,6 +122,7 @@ DEPENDENCIES
   machineshop
   pg
   rails (= 4.0.2)
+  rest-client (~> 1.6.7)
   rmagick
   sass-rails (~> 4.0.0)
   sdoc
