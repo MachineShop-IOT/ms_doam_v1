@@ -1,6 +1,8 @@
 require 'machineshop'
 require 'RMagick'
 
+MachineShop.api_base_url = 'https://services.machineshop.io/api/v0'
+
 class UserController < ApplicationController
   def authenticate
     begin

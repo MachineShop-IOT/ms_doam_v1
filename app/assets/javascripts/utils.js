@@ -277,7 +277,7 @@ function getWeather(state, city){
     weather = o.alerts;
     weather = weather.temp_f ? weather.weather+", Temperature: "+weather.temp_f+"°F ("+weather.temp_c+"°C), Humidity: "+weather.relative_humidity :  "N/A";
   } catch(e) {
-    weather = "N/A";
+    weather = "Could not get weather from server";
   }
 
   return weather;

@@ -2,6 +2,8 @@
 require 'machineshop'
 require 'RMagick'
 
+MachineShop.api_base_url = 'https://services.machineshop.io/api/v0'
+
 class UtilController < ApplicationController
   # API_URL = 'http://stage.services.machineshop.io/api/v0'
   API_URL = 'https://services.machineshop.io/api/v0'
@@ -28,7 +30,7 @@ class UtilController < ApplicationController
     state =  params[:state]
     city = params[:city].tr(" ", "+")
 
-    url = "https://servies.machineshop.io/api/v0/platform/utility/weather?state=#{state}&city=#{city}"
+    url = "#{API_URL}/platform/utility/weather?state=#{state}&city=#{city}"
     begin
       response = api_request(url, nil, :get, session[:auth_token])
     rescue Exception => e
@@ -91,7 +93,8 @@ class UtilController < ApplicationController
 
   def api_headers(authentication_token)
     heads = { content_type: :json, accept: :json }
-    heads.merge!({ authorization: "Basic V0QxVjVzYjdUcG1ibmZuQlNEbks6WA==" }) if authentication_token
+    # heads.merge!({ authorization: "Basic V0QxVjVzYjdUcG1ibmZuQlNEbks6WA==" }) if authentication_token
+    heads.merge!({ authorization: "Basic " + Base64.encode64(authentication_token+':X') }) if authentication_token
     puts "auth_token_hash : #{heads}"
     heads
   end
