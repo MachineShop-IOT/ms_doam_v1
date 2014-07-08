@@ -1,6 +1,8 @@
 require 'RMagick'
 class MonitorController < ApplicationController
 
+  MachineShop.api_base_url = 'https://services.machineshop.io/api/v0'
+
   # before_filter :require_signed_in_user
 
   def get_last_reports
