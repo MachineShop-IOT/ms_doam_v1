@@ -28,7 +28,7 @@ class UtilController < ApplicationController
     state =  params[:state]
     city = params[:city].tr(" ", "+")
 
-    url = "http://192.168.0.121:3000/api/v1/platform/utility/weather_report/?state=#{state}&city=#{city}"
+    url = "https://servies.machineshop.io/api/v0/platform/utility/weather?state=#{state}&city=#{city}"
     begin
       response = api_request(url, nil, :get, session[:auth_token])
     rescue Exception => e
@@ -36,6 +36,8 @@ class UtilController < ApplicationController
     end
 
     respond_to do |format|
+      puts "#################################"
+      puts response
       format.json { render json: response.to_json }
     end
 
