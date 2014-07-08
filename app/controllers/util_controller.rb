@@ -36,8 +36,6 @@ class UtilController < ApplicationController
     end
 
     respond_to do |format|
-      puts "#################################"
-      puts response
       format.json { render json: response.to_json }
     end
 
