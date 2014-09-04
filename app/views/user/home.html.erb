@@ -27,15 +27,11 @@
 
 						<div class="col-md-12 sidePanelDetail" style="display:none;">
 
-							<div class="select_all_box">
-								<%= check_box_tag "select_all_dis", "Select all", {:checked => "checked"} -%>
-						        <%= h "Select all" -%>
-							</div>
 							
 							<ul class="list v-scroll" id="dis_selector">
 							  <% @dis_list.each do |role| %>
 							      <li>
-							        <%= check_box_tag role[1], role[1], {:checked => "checked"} -%>
+							        <%= check_box_tag role[1], role[1], false,class: 'device-check' -%>
 							        <%= h role[0] -%>
 							      </li>
 							  <% end %>

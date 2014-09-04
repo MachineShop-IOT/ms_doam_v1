@@ -21,13 +21,21 @@ class MonitorController < ApplicationController
   end
 
   def get_sample_payload_data
+    id = params[:id].blank? ? nil : params[:id]
     payload = Array.new
     dis = MachineShop::DeviceInstance.all({}, session[:auth_token])
     dis.to_a.each do |di|
         if di['last_report'].present?
             if di['last_report']['payload'].present?
-                payload << di['last_report']['payload']
-                break
+                if id 
+                  if id == di['_id']
+                    payload << di['last_report']['payload']
+                    break
+                  end
+                else
+                  payload << di['last_report']['payload']
+                  break
+                end
             end
         end
     end

@@ -77,12 +77,12 @@ function getRandomColors(num_colors){
   return colorsArr;
 }
 
-function buildPayloadTree(){
+function buildPayloadTree(id){
 
   console.log("Building Tree...");
 
   $.ajax({
-    url: SAMPLE_PAYLOAD_URL
+    url: SAMPLE_PAYLOAD_URL + '?id=' + id
   }).done(function (response) {
     var tree_html = recursive(response.payload);
     $('#lat_tree').html(tree_html);

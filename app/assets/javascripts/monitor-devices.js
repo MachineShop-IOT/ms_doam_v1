@@ -176,3 +176,13 @@ function destroyPopup(feature) {
   feature.popup.destroy();
   feature.popup = null;
 }
+
+$(document).ready(function(){
+  $('.device-check').click(function(){
+    console.log('device check clicked');
+    if($(this).is(':checked')){
+        console.log('it was checked');
+        buildPayloadTree($(this).val());
+    }
+  });
+});
