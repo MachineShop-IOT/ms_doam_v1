@@ -1,12 +1,12 @@
 require 'machineshop'
 require 'RMagick'
 
-MachineShop.api_base_url = 'https://services.machineshop.io/api/v0'
+MachineShop.api_base_url = 'https://services.machineshop.io/api/v1'
 
 class UserController < ApplicationController
   def authenticate
     begin
-      auth_token, user = MachineShop::User.authenticate(
+      auth_token, user = MachineShop::Users.authenticate(
                                                         :email => params['userlogin']['email'], #publisher@csr.com
                                                         :password => params['userlogin']['password'] #password
                                                         )
@@ -38,7 +38,8 @@ class UserController < ApplicationController
   def home
     begin
       @dis_list = Array.new
-      dis = MachineShop::DeviceInstance.all({}, session[:auth_token])
+      dis = MachineShop::DataSources.all({}, session[:auth_token])
+      puts "dis_______#{dis}"
       dis.to_a.each do |di|
         @dis_list << [di['name'], di['_id']]
       end
@@ -52,7 +53,7 @@ class UserController < ApplicationController
 
   def apiKeyCheck
     begin
-      allRoles = MachineShop::User.all_roles(params['apiKey']['api_key'])
+      allRoles = MachineShop::Users.all_roles(params['apiKey']['api_key'])
       session[:auth_token] = params['apiKey']['api_key']
       redirect_to "/home"
     rescue MachineShop::AuthenticationError => ae

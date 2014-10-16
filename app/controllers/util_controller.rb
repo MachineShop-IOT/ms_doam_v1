@@ -2,11 +2,10 @@
 require 'machineshop'
 require 'RMagick'
 
-MachineShop.api_base_url = 'https://services.machineshop.io/api/v0'
+MachineShop.api_base_url = 'https://services.machineshop.io/api/v1'
 
 class UtilController < ApplicationController
-  # API_URL = 'http://stage.services.machineshop.io/api/v0'
-  API_URL = 'https://services.machineshop.io/api/v0'
+  API_URL = 'https://services.machineshop.io/api/v1'
 
   def get_address_by_latlon()
 

@@ -1,7 +1,7 @@
 DoamApp::Application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
 
-  MachineShop.api_base_url = 'https://services.machineshop.io/api/v0'
+  MachineShop.api_base_url = 'https://services.machineshop.io/api/v1'
 
   # In the development environment your application's code is reloaded on
   # every request. This slows down response time but is perfect for development

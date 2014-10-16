@@ -81,7 +81,7 @@
           <label class="title">Authentication</label>
           <label class="sub_title">Allow a user to authenticate</label>
           <pre>
-    auth_token, user = MachineShop::User.authenticate(
+    auth_token, user = MachineShop::Users.authenticate(
         :email => "username",
         :password => "password"
     )
